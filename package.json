@@ -1,5 +1,5 @@
 {
-  "name": "component-starter-framework",
+  "name": "js-component-framework",
   "version": "1.0.0",
   "description": "This framework is a method of attaching an ES6 class to a DOM element or collection of DOM elements.",
   "main": "index.js",
@@ -8,9 +8,20 @@
   },
   "author": "Alley Interactive (alleyinteractive.com)",
   "contributors": [
-  	"Owen Stowe <owen@alleyinteractive.com> (alleyinteractive.com)",
-  	"Pattie Reaves <pattie@alleyinteractive.com> (alleyinteractive.com)",
-  	"Ryan Domingue <ryan@alleyinteractive.com> (alleyinteractive.com)"
+    "Owen Stowe <owen@alleyinteractive.com> (alleyinteractive.com)",
+    "Pattie Reaves <pattie@alleyinteractive.com> (alleyinteractive.com)",
+    "Ryan Domingue <ryan@alleyinteractive.com> (alleyinteractive.com)"
   ],
-  "license": "GPL-2.0"
+  "license": "GPL-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alleyinteractive/js-component-framework.git"
+  },
+  "keywords": [
+    "es6"
+  ],
+  "bugs": {
+    "url": "https://github.com/alleyinteractive/js-component-framework/issues"
+  },
+  "homepage": "https://github.com/alleyinteractive/js-component-framework#readme"
 }
