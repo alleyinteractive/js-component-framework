@@ -1,0 +1,16 @@
+{
+  "name": "component-starter-framework",
+  "version": "1.0.0",
+  "description": "This framework is a method of attaching an ES6 class to a DOM element or collection of DOM elements.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alley Interactive (alleyinteractive.com)",
+  "contributors": [
+  	"Owen Stowe <owen@alleyinteractive.com> (alleyinteractive.com)",
+  	"Pattie Reaves <pattie@alleyinteractive.com> (alleyinteractive.com)",
+  	"Ryan Domingue <ryan@alleyinteractive.com> (alleyinteractive.com)"
+  ],
+  "license": "GPL-2.0"
+}
