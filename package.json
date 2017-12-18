@@ -2,9 +2,9 @@
   "name": "js-component-framework",
   "version": "1.0.0",
   "description": "This framework is a method of attaching an ES6 class to a DOM element or collection of DOM elements.",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
-    "prepublish": "node_modules/babel-cli/bin/babel.js src --out-dir lib",
+    "prepare": "node_modules/babel-cli/bin/babel.js src --out-dir lib",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Alley Interactive (alleyinteractive.com)",
