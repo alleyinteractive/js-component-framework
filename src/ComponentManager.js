@@ -44,12 +44,13 @@ export default class ComponentManager {
         const componentEls = context
           .querySelectorAll(`[data-component='${componentConfig.name}']`);
 
+        console.log({ componentConfig, componentEls });
         // Can't find any elements!
         if (! componentEls.length) {
           /* eslint-disable no-console, max-len */
           console.error(
             `Component '${componentName}' does not exist or is configured incorrectly.
-Check 'client/js/site/config.js' to ensure this component has a configuration object.
+Check this component's config to ensure this component has a configuration object.
 Also, verify the '${componentName}' class extends the core component class located in client/js/site/Component.js`
           );
           /* eslint-enable */
