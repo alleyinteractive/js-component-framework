@@ -4,6 +4,7 @@
   "description": "This framework is a method of attaching an ES6 class to a DOM element or collection of DOM elements.",
   "main": "index.js",
   "scripts": {
+    "prepublish": "node_modules/babel-cli/bin/babel.js src --out-dir lib",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Alley Interactive (alleyinteractive.com)",
@@ -23,5 +24,12 @@
   "bugs": {
     "url": "https://github.com/alleyinteractive/js-component-framework/issues"
   },
-  "homepage": "https://github.com/alleyinteractive/js-component-framework#readme"
+  "homepage": "https://github.com/alleyinteractive/js-component-framework#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.0.0-beta.35",
+    "@babel/core": "^7.0.0-beta.35",
+    "@babel/preset-env": "^7.0.0-beta.35"
+  },
+  "dependencies": {},
+  "browserslist": "last 2 versions, ie 10"
 }
