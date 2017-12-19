@@ -1,4 +1,4 @@
-import Component from '../Component';
+import { Component } from 'js-component-framework';
 
 /**
  * Component for instantiating Headroom for sticky header
