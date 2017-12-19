@@ -61,7 +61,7 @@ When writing a component class, are some rules you need to follow and some guide
 
 Import the component config in one of your entry point files, and pass that config to the ComponentManager's instanceComponents method. 
 
-Generally speaking, you'll want to instantiate your component in the footer or on `DOMContentLoaded`
+Generally speaking, you'll want to instantiate your component in the footer or on `DOMContentLoaded`.
 
 ```js
 
