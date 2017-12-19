@@ -44,7 +44,6 @@ export default class ComponentManager {
         const componentEls = context
           .querySelectorAll(`[data-component='${componentConfig.name}']`);
 
-        console.log({ componentConfig, componentEls });
         // Can't find any elements!
         if (! componentEls.length) {
           /* eslint-disable no-console, max-len */
