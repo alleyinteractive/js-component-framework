@@ -8,11 +8,13 @@ import Aria from './Aria';
  * @param {Object} config - Config options for AriaTablist
  * @param {HTMLElement} config.tablist - The tab elements' parent element
  * @param {NodeList} config.panels - A list of panel elements; each panel should have a corresponding tab element in config.tabs
+ * @param {MediaQueryList} config.breakpoint - An optional breakpoint definition to be used to init and/or destroy the tablist
  *
  * E.g.:
  * const tablist = new AriaTablist({
  *   tablist: tabsWrapper,
- *   panels: panelElements
+ *   panels: panelElements,
+ *   breakpoint: mediaQuery
  * });
  */
 export default class AriaTablist extends Aria {
@@ -21,6 +23,7 @@ export default class AriaTablist extends Aria {
 
     this.tablist = config.tablist;
     this.panels = config.panels;
+    this.breakpoint = config.breakpoint;
 
     this.index = 0;
 
@@ -53,9 +56,17 @@ export default class AriaTablist extends Aria {
     this.ariaSwitchTab = this.ariaSwitchTab.bind(this);
     this._updateTabs = this._updateTabs.bind(this);
     this.updateTabs = this.updateTabs.bind(this);
+    this.handleBreakpoint = this.handleBreakpoint.bind(this);
+    this.tearDown = this.tearDown.bind(this);
 
     Aria.eventPolyfill();
-    this.init();
+
+    if (undefined === this.breakpoint || 'object' !== typeof this.breakpoint) {
+      this.init();
+    } else {
+      this.handleBreakpoint();
+      this.breakpoint.addListener(this.handleBreakpoint);
+    }
   }
 
   /**
@@ -68,7 +79,9 @@ export default class AriaTablist extends Aria {
     this.tabs.forEach((tab, index) => {
       tab.setAttribute('role', 'tab');
       tab.setAttribute('aria-selected', `${this.index === index}`);
-      if (this.index !== index) {
+      if (this.index === index) {
+        tab.setAttribute('tabindex', '0');
+      } else {
         tab.setAttribute('tabindex', '-1');
       }
 
@@ -103,9 +116,8 @@ export default class AriaTablist extends Aria {
    */
   shiftTabKeyDown(event) {
     if (event.keyCode === this.tabKey && event.shiftKey) {
-      const focusIndex = this.interactiveChildElements.indexOf(
-        document.activeElement
-      );
+      const focusIndex = this.interactiveChildElements
+        .indexOf(document.activeElement);
 
       if (0 === focusIndex) {
         const currentPanel = this.panels
@@ -227,13 +239,14 @@ export default class AriaTablist extends Aria {
         this.interactiveChildElements,
         (focusElement) => {
           focusElement.setAttribute('tabindex', '-1');
-        });
+        }
+      );
 
       deactivate.panel.removeEventListener('keydown', this.shiftTabKeyDown);
 
       // Update new active tab
       [selected, hidden] = [hidden, selected];
-      activate.tab.removeAttribute('tabindex');
+      activate.tab.setAttribute('tabindex', '0');
       activate.tab.setAttribute('aria-selected', selected);
       activate.panel.setAttribute('aria-hidden', hidden);
 
@@ -278,6 +291,52 @@ export default class AriaTablist extends Aria {
       activate.panel = this.panels[activate.index];
 
       this.updateTabs(deactivate, activate);
+    }
+  }
+
+  /**
+   * Destroy the tablist, removing ARIA attributes and event listeners
+   */
+  tearDown() {
+    this.tablist.removeAttribute('role');
+
+    this.tabs.forEach((tab, index) => {
+      tab.removeAttribute('role');
+      tab.removeAttribute('aria-selected');
+      if (this.index !== index) {
+        tab.removeAttribute('tabindex');
+      }
+
+      tab.removeEventListener('click', this.ariaSwitchTab);
+      tab.removeEventListener('keydown', this.keyDownHandler);
+    });
+
+    this.panels.forEach((panel) => {
+      panel.removeAttribute('role');
+      panel.removeAttribute('aria-hidden');
+    });
+
+    this.targetElement = this.panels[this.index];
+    this.collectInteractiveChildren();
+
+    this.panels[this.index].removeEventListener(
+      'keydown',
+      this.shiftTabKeyDown
+    );
+
+    const detail = { activePanel: null };
+    const tablistTeardown = Aria.createAriaEvent('tablistTeardown', detail);
+    this.tablist.dispatchEvent(tablistTeardown);
+  }
+
+  /**
+   * Handle breakpoint changes as necessary.
+   */
+  handleBreakpoint() {
+    if (this.breakpoint.matches) {
+      this.init();
+    } else {
+      this.tearDown();
     }
   }
 }
