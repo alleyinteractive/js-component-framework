@@ -24,16 +24,15 @@ It will contain the configuration file and the class.
 
 ### The configuration file
 
-Use the convention `[componentName]Config.js`. The configuration requires several properties:
+Use the convention `index.js`, as this will be the default export for the component. The configuration requires several properties:
 
 * `name` - *required* - **THIS _MUST_ BE UNIQUE**. An arbitrary name for the component. This is used to find component elements via data attribute `data-component="componentName"`. `name` is also used to store instances of the component in the global manifest.
 * `class` - *required* - The imported ES6 class for the component.
 * `querySelector` - *optional* - An object containing child selectors you'll need for the component logic. Each of these selectors should correspond to an element of which there is only one within the component (and will be queried using the `querySelector` JS method). The base Component class will automatically query these selectors and add them as properties to the class (using the provided object keys). For example, if you provide `title: '.site-title'`, this will be accessible in your component class as `this.children.title`.
 * `querySelectorAll` - *optional* - Same as `querySelector`, but will provide an array of each element it finds matching the selector.
-* `children` - *optional* - If you prefer to set up the contents of `this.children` manually, you can provide selectors directly to this object and query them yourself in the component constructor. Example in [here](client/js/components/Header/Header.js).
 * `options` - *optional* - An object containing arbitrary additional options for the component. This could be a configuration for another JS library, values used for calculating styles, etc.
 
-[See the Header config example](./examples/Header/headerConfig.js) for context.
+[See the Header example](./examples/Header/index.js) for context.
 
 ### The component class
 

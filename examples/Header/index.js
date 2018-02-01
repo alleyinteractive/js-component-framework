@@ -9,9 +9,6 @@ const headerConfig = {
   querySelectorAll: {
     menuItems: '.menu-item', // Automatically queried via `this.element.querySelectorAll(selector)`
   },
-  children: {
-    menuToggle: '.menu-toggle', // You can set up the component children manually, if you prefer
-  },
   options: {
     offset: 100,
   },
