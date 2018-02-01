@@ -58,14 +58,14 @@ When writing a component class, are some rules you need to follow and some guide
 
 ## How to instantiate components
 
-Import the component config in one of your entry point files, and pass that config to the ComponentManager's instanceComponents method. 
+Import the component config in one of your entry point files, and pass that config to the ComponentManager's instanceComponents method.
 
 Generally speaking, you'll want to instantiate your component in the footer or on `DOMContentLoaded`.
 
 ```js
 
 import { ComponentManager } from `js-component-framework`;
-import headerConfig from `./Components/Header/headerConfig`;
+import headerConfig from `./Components/Header`;
 
 // Instantiate manager
 // "namespace" can be any string to namespace this instance of the manager
@@ -74,8 +74,8 @@ const manager = new ComponentManager('namespace');
 // Create component instances
 document.addEventListener('DOMContentLoaded', () => {
   manager.initComponents([
-        headerConfig
-    ]);
+    headerConfig
+  ]);
 });
 ```
 
