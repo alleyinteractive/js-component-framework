@@ -9,7 +9,7 @@ import Aria from './Aria';
  * @param {HTMLElement} config.dialog - The dialog element
  * @param {HTMLElement} config.close - The dialog close button; should be the first child of the dialog
  * @param {Object} config.attributes - An Object of aria-* attributes to be added to the `target`, where the key completes an 'aria-' attribute name and the value is a valid attribute value.
- * @param {HTMLElement} config.content - The element wrapping, the site content, of which the modal is NOT a child. The modal should be a child of document.body
+ * @param {HTMLElement} config.content - The element wrapping the site content, of which the modal is NOT a child. The modal should be a child of document.body
  *
  * E.g.:
  * const modal = new AriaDialog({
