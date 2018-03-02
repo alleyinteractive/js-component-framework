@@ -1,5 +1,6 @@
 // Available to all components
 import Component from './Component';
+require('core-js/modules/es6.object.assign');
 
 /**
  * Internal class for instantiating the Module Manager
