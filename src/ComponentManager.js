@@ -1,5 +1,6 @@
 // Available to all components
 import Component from './Component';
+require('core-js/modules/es6.object.assign');
 
 /**
  * Internal class for instantiating the Module Manager
@@ -47,7 +48,7 @@ export default class ComponentManager {
         // Can't find any elements!
         if (! componentEls.length) {
           /* eslint-disable no-console, max-len */
-          console.error(
+          console.info(
             `Component '${componentName}' does not exist or is configured incorrectly.
 Check this component's config to ensure this component has a configuration object.
 Also, verify the '${componentName}' class extends the core component class located in client/js/site/Component.js`

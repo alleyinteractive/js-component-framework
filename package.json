@@ -1,6 +1,6 @@
 {
   "name": "js-component-framework",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "This framework is a method of attaching an ES6 class to a DOM element or collection of DOM elements.",
   "main": "lib/index.js",
   "scripts": {
@@ -34,6 +34,7 @@
     "babel-preset-env": "^1.6.1"
   },
   "dependencies": {
+    "core-js": "^2.5.3",
     "fastdom": "^1.0.6"
   }
 }
