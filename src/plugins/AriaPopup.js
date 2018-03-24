@@ -322,9 +322,8 @@ export default class AriaPopup extends Aria {
     this.target.removeEventListener('keydown', this.keyDownHandler);
     document.body.removeEventListener('click', this.outsideClick);
 
-    let destroy = null;
     const detail = { expanded: this.isExpanded };
-    destroy = Aria.createAriaEvent('popupdestroy', detail);
+    const destroy = Aria.createAriaEvent('popupdestroy', detail);
     this.controller.dispatchEvent(destroy);
   }
 
@@ -347,9 +346,8 @@ export default class AriaPopup extends Aria {
       this.controller.focus();
     }
 
-    let reset = null;
     const detail = { expanded: false };
-    reset = Aria.createAriaEvent('popupreset', detail);
+    const reset = Aria.createAriaEvent('popupreset', detail);
     this.controller.dispatchEvent(reset);
   }
 }

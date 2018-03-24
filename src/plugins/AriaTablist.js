@@ -100,9 +100,8 @@ export default class AriaTablist extends Aria {
       this.shiftTabKeyDown
     );
 
-    let tabInit = null;
     const detail = { activePanel: this.panels[this.index] };
-    tabInit = Aria.createAriaEvent('tabinit', detail);
+    const tabInit = Aria.createAriaEvent('tabinit', detail);
     this.tablist.dispatchEvent(tabInit);
   }
 
@@ -263,9 +262,8 @@ export default class AriaTablist extends Aria {
 
       activate.panel.addEventListener('keydown', this.shiftTabKeyDown);
 
-      let tabChange = null;
       const detail = { activePanel: this.panels[this.index] };
-      tabChange = Aria.createAriaEvent('tabchange', detail);
+      const tabChange = Aria.createAriaEvent('tabchange', detail);
       this.tablist.dispatchEvent(tabChange);
     }
   }

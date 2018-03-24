@@ -155,9 +155,8 @@ export default class AriaDialog extends Aria {
     document.body.removeEventListener('keydown', this.keyDownHandler);
     this.overlay.removeEventListener('click', this.outsideClick);
 
-    let hide = null;
     const detail = { expanded: this.isShown };
-    hide = Aria.createAriaEvent('dialoghide', detail);
+    const hide = Aria.createAriaEvent('dialoghide', detail);
     this.element.dispatchEvent(hide);
 
     this.focusEl.focus();
@@ -186,9 +185,8 @@ export default class AriaDialog extends Aria {
     document.body.addEventListener('keydown', this.keyDownHandler);
     this.overlay.addEventListener('click', this.outsideClick);
 
-    let show = null;
     const detail = { expanded: this.isShown };
-    show = Aria.createAriaEvent('dialogshow', detail);
+    const show = Aria.createAriaEvent('dialogshow', detail);
     this.element.dispatchEvent(show);
 
     this.collectInteractiveChildren();
