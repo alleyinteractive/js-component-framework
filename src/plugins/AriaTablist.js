@@ -8,13 +8,11 @@ import Aria from './Aria';
  * @param {Object} config - Config options for AriaTablist
  * @param {HTMLElement} config.tablist - The tab elements' parent element
  * @param {NodeList} config.panels - A list of panel elements; each panel should have a corresponding tab element in config.tabs
- * @param {MediaQueryList} config.breakpoint - An optional breakpoint definition to be used to init and/or destroy the tablist
  *
  * E.g.:
  * const tablist = new AriaTablist({
  *   tablist: tabsWrapper,
  *   panels: panelElements,
- *   breakpoint: mediaQuery
  * });
  */
 export default class AriaTablist extends Aria {
@@ -23,7 +21,6 @@ export default class AriaTablist extends Aria {
 
     this.tablist = config.tablist;
     this.panels = config.panels;
-    this.breakpoint = config.breakpoint;
 
     this.index = 0;
 
@@ -56,17 +53,11 @@ export default class AriaTablist extends Aria {
     this.ariaSwitchTab = this.ariaSwitchTab.bind(this);
     this._updateTabs = this._updateTabs.bind(this);
     this.updateTabs = this.updateTabs.bind(this);
-    this.handleBreakpoint = this.handleBreakpoint.bind(this);
     this.tearDown = this.tearDown.bind(this);
 
     Aria.eventPolyfill();
 
-    if (undefined === this.breakpoint || 'object' !== typeof this.breakpoint) {
-      this.init();
-    } else {
-      this.handleBreakpoint();
-      this.breakpoint.addListener(this.handleBreakpoint);
-    }
+    this.init();
   }
 
   /**
@@ -136,7 +127,7 @@ export default class AriaTablist extends Aria {
    * @param {Object} event The event object.
    */
   keyDownHandler(event) {
-    if (event.keyCode === this.tabKey && ! event.shiftKey) {
+    if (event.keyCode === this.tabKey && !event.shiftKey) {
       this.tabKeyDown(event);
     } else if (this.key.arrows.test(event.keyCode)) {
       this.arrowKeyDown(event);
@@ -327,16 +318,5 @@ export default class AriaTablist extends Aria {
     const detail = { activePanel: null };
     const tablistTeardown = Aria.createAriaEvent('tablistTeardown', detail);
     this.tablist.dispatchEvent(tablistTeardown);
-  }
-
-  /**
-   * Handle breakpoint changes as necessary.
-   */
-  handleBreakpoint() {
-    if (this.breakpoint.matches) {
-      this.init();
-    } else {
-      this.tearDown();
-    }
   }
 }
