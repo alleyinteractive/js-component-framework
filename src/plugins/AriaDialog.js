@@ -75,6 +75,12 @@ export default class AriaDialog extends Aria {
     Object.keys(this.attributes).forEach((attr) => {
       this.element.setAttribute(`aria-${attr}`, this.attributes[attr]);
     });
+
+    Aria.dispatchAriaEvent(
+      'dialoginit',
+      { expanded: this.isShown },
+      this.element
+    );
   }
 
   /**
