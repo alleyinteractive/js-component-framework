@@ -83,7 +83,7 @@ export default class AriaDialog extends Aria {
    * @param {Object} event The event object.
    */
   outsideClick(event) {
-    if (this.isShown && ! this.element.contains(event.target)) {
+    if (this.isShown && !this.element.contains(event.target)) {
       this.ariaHide();
     }
   }
@@ -120,7 +120,7 @@ export default class AriaDialog extends Aria {
     if (event.shiftKey && 0 === focusedIndex) {
       event.preventDefault();
       this.interactiveChildElements[lastItem].focus();
-    } else if (! event.shiftKey && focusedIndex === lastItem) { // eslint-disable-line max-len
+    } else if (!event.shiftKey && focusedIndex === lastItem) {
       event.preventDefault();
       this.interactiveChildElements[0].focus();
     }

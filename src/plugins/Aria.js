@@ -64,7 +64,7 @@ export default class Aria {
    * @returns {Boolean}
    */
   static isVisible(element) {
-    return !! (
+    return !!(
       element.offsetWidth ||
       element.offsetHeight ||
       element.getClientRects().length
