@@ -9,6 +9,7 @@ import Aria from './Aria';
  * @param {HTMLElement} config.controller - The controlling element
  * @param {HTMLElement} config.target - The element controlled by `controller`
  * @param {Object} config.attributes - An Object of aria-* attributes to be added to the `target`, where the key completes an 'aria-' attribute name and the value is a valid attribute value.
+ * @param {Boolean} config.loadOpen - Whether or not the popup should load expanded by default
  *
  * E.g.:
  * const popup = new AriaPopup({
@@ -19,6 +20,7 @@ import Aria from './Aria';
  *     labelledby: 'element-id'
  *     describedby: 'verbose-element-id'
  *   }
+ *   loadOpen: true,
  * });
  */
 export default class AriaPopup extends Aria {
@@ -28,11 +30,11 @@ export default class AriaPopup extends Aria {
     this.controller = config.controller;
     this.target = config.target;
     this.attributes = config.attributes || {};
+    this._loadOpen = config.loadOpen || false;
 
     this.targetElement = this.target;
 
     this.targetAttr = {};
-    this.isExpanded = false;
 
     // Bind class methods
     this.setTargetAttributes = this.setTargetAttributes.bind(this);
@@ -62,15 +64,18 @@ export default class AriaPopup extends Aria {
    * Add initial attributes, establish relationships, and listen for events
    */
   ariaSetup() {
+    this.loadOpen = this._loadOpen;
+    this.isExpanded = this._loadOpen;
+
     this.controller.setAttribute('aria-haspopup', 'true');
-    this.controller.setAttribute('aria-expanded', 'false');
+    this.controller.setAttribute('aria-expanded', `${this.loadOpen}`);
     this.controller.setAttribute('aria-controls', this.targetId);
 
     if (this.target !== this.controller.nextElementSibling) {
       this.controller.setAttribute('aria-owns', this.targetId);
     }
 
-    this.target.setAttribute('aria-hidden', 'true');
+    this.target.setAttribute('aria-hidden', `${! this.loadOpen}`);
 
     Object.keys(this.targetAttr).forEach((attr) => {
       this.target.setAttribute(attr, this.targetAttr[attr]);
@@ -110,6 +115,7 @@ export default class AriaPopup extends Aria {
   outsideClick(event) {
     if (
       this.isExpanded &&
+      ! this.loadOpen &&
       ! this.controller.contains(event.target) &&
       ! this.target.contains(event.target)
     ) {
@@ -123,7 +129,7 @@ export default class AriaPopup extends Aria {
    * @param {Object} event The event object.
    */
   keyDownHandler(event) {
-    if (this.isExpanded) {
+    if (this.isExpanded && ! this.loadOpen) {
       if (event.keyCode === this.tabKey) {
         this.keydownTabOut(event);
       } else if (event.keyCode === this.escapeKey) {
@@ -198,6 +204,7 @@ export default class AriaPopup extends Aria {
     this.target.setAttribute('aria-hidden', 'true');
 
     this.isExpanded = false;
+    this.loadOpen = false;
 
     let hide = null;
     const detail = { expanded: this.isExpanded };
@@ -278,6 +285,7 @@ export default class AriaPopup extends Aria {
     });
 
     this.isExpanded = false;
+    this.loadOpen = false;
 
     this.collectInteractiveChildren();
 
