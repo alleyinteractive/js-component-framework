@@ -55,7 +55,7 @@ export default class AriaTablist extends Aria {
     this.ariaSwitchTab = this.ariaSwitchTab.bind(this);
     this._updateTabs = this._updateTabs.bind(this);
     this.updateTabs = this.updateTabs.bind(this);
-    this.tearDown = this.tearDown.bind(this);
+    this.destroy = this.destroy.bind(this);
 
     Aria.eventPolyfill();
 
@@ -101,7 +101,7 @@ export default class AriaTablist extends Aria {
     );
 
     Aria.dispatchAriaEvent(
-      'tabinit',
+      'tablistinit',
       { activePanel: this.panels[this.index] },
       this.tablist
     );
@@ -134,7 +134,7 @@ export default class AriaTablist extends Aria {
    * @param {Object} event The event object.
    */
   keyDownHandler(event) {
-    if (event.keyCode === this.tabKey && !event.shiftKey) {
+    if (event.keyCode === this.tabKey && ! event.shiftKey) {
       this.tabKeyDown(event);
     } else if (this.key.arrows.test(event.keyCode)) {
       this.arrowKeyDown(event);
@@ -265,7 +265,7 @@ export default class AriaTablist extends Aria {
       activate.panel.addEventListener('keydown', this.shiftTabKeyDown);
 
       Aria.dispatchAriaEvent(
-        'tabchange',
+        'tablistchange',
         { activePanel: this.panels[this.index] },
         this.tablist
       );
@@ -299,7 +299,7 @@ export default class AriaTablist extends Aria {
   /**
    * Destroy the tablist, removing ARIA attributes and event listeners
    */
-  tearDown() {
+  destroy() {
     this.tablist.removeAttribute('role');
 
     this.tabs.forEach((tab, index) => {
@@ -327,7 +327,7 @@ export default class AriaTablist extends Aria {
     );
 
     Aria.dispatchAriaEvent(
-      'tablistTeardown',
+      'tablistdestroy',
       { activePanel: null },
       this.tablist
     );
