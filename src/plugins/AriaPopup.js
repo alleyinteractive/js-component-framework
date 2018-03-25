@@ -351,11 +351,5 @@ export default class AriaPopup extends Aria {
     if (this.target.contains(document.activeElement)) {
       this.controller.focus();
     }
-
-    Aria.dispatchAriaEvent(
-      'popupreset',
-      { expanded: false },
-      this.controller
-    );
   }
 }
