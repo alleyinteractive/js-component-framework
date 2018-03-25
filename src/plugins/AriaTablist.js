@@ -35,18 +35,20 @@ export default class AriaTablist extends Aria {
       arrDown: 40,
     };
 
-    this.tabs = [];
+    this.tablistChildren = Array.prototype.slice.call(this.tablist.children);
     this.panels = Array.prototype.slice.call(this.panels);
 
-    Array.prototype.forEach.call(this.tablist.children, (child) => {
-      if ('LI' === child.nodeName) {
-        child.setAttribute('role', 'presentation');
-        const childAnchor = child.querySelector('a[href]');
-        this.tabs.push(childAnchor);
-      } else {
-        this.tabs.push(child);
-      }
-    });
+    // Required markup is `<li><a href=""></a></li>`
+    this.tabs = this.tablistChildren
+      .filter((child) => null !== child.querySelector('a[href]'))
+      .map((child) => child.querySelector('a[href]'));
+
+    // Bail if there's a mismatch in tabs and panels
+    if (this.tabs.length !== this.panels.length) {
+      // eslint-disable-next-line max-len
+      console.error('AriaTablist requires an equal number of tabs and tabpanels');
+      return;
+    }
 
     // Bind class methods
     this.shiftTabKeyDown = this.shiftTabKeyDown.bind(this);
@@ -77,6 +79,10 @@ export default class AriaTablist extends Aria {
 
     // role=tab, aria-selected
     this.tabs.forEach((tab, index) => {
+      if ('LI' === tab.parentElement.nodeName) {
+        tab.parentElement.setAttribute('role', 'presentation');
+      }
+
       tab.setAttribute('role', 'tab');
       tab.setAttribute('aria-selected', `${this.index === index}`);
       if (this.index === index) {
