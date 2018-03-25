@@ -95,6 +95,12 @@ export default class AriaPopup extends Aria {
     if (this.hasTransition) {
       this.target.addEventListener('transitionend', this._postToggle);
     }
+
+    Aria.dispatchAriaEvent(
+      'popupinit',
+      { expanded: this.isExpanded },
+      this.controller
+    );
   }
 
   /**
@@ -207,13 +213,11 @@ export default class AriaPopup extends Aria {
       this.rovingTabIndex();
     }
 
-    let show = null;
-    const detail = { expanded: this.isExpanded };
-    show = Aria.createAriaEvent(
+    Aria.dispatchAriaEvent(
       this.isExpanded ? 'popupshow' : 'popuphide',
-      detail
+      { expanded: this.isExpanded },
+      this.controller
     );
-    this.controller.dispatchEvent(show);
   }
 
   /**
@@ -322,9 +326,11 @@ export default class AriaPopup extends Aria {
     this.target.removeEventListener('keydown', this.keyDownHandler);
     document.body.removeEventListener('click', this.outsideClick);
 
-    const detail = { expanded: this.isExpanded };
-    const destroy = Aria.createAriaEvent('popupdestroy', detail);
-    this.controller.dispatchEvent(destroy);
+    Aria.dispatchAriaEvent(
+      'popupdestroy',
+      { expanded: this.isExpanded },
+      this.controller
+    );
   }
 
   /**
@@ -346,8 +352,10 @@ export default class AriaPopup extends Aria {
       this.controller.focus();
     }
 
-    const detail = { expanded: false };
-    const reset = Aria.createAriaEvent('popupreset', detail);
-    this.controller.dispatchEvent(reset);
+    Aria.dispatchAriaEvent(
+      'popupreset',
+      { expanded: false },
+      this.controller
+    );
   }
 }

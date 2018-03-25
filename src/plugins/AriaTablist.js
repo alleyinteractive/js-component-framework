@@ -100,9 +100,11 @@ export default class AriaTablist extends Aria {
       this.shiftTabKeyDown
     );
 
-    const detail = { activePanel: this.panels[this.index] };
-    const tabInit = Aria.createAriaEvent('tabinit', detail);
-    this.tablist.dispatchEvent(tabInit);
+    Aria.dispatchAriaEvent(
+      'tabinit',
+      { activePanel: this.panels[this.index] },
+      this.tablist
+    );
   }
 
   /**
@@ -262,9 +264,11 @@ export default class AriaTablist extends Aria {
 
       activate.panel.addEventListener('keydown', this.shiftTabKeyDown);
 
-      const detail = { activePanel: this.panels[this.index] };
-      const tabChange = Aria.createAriaEvent('tabchange', detail);
-      this.tablist.dispatchEvent(tabChange);
+      Aria.dispatchAriaEvent(
+        'tabchange',
+        { activePanel: this.panels[this.index] },
+        this.tablist
+      );
     }
   }
 
@@ -322,8 +326,10 @@ export default class AriaTablist extends Aria {
       this.shiftTabKeyDown
     );
 
-    const detail = { activePanel: null };
-    const tablistTeardown = Aria.createAriaEvent('tablistTeardown', detail);
-    this.tablist.dispatchEvent(tablistTeardown);
+    Aria.dispatchAriaEvent(
+      'tablistTeardown',
+      { activePanel: null },
+      this.tablist
+    );
   }
 }
