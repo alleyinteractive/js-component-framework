@@ -72,6 +72,9 @@ export default class AriaPopup extends Aria {
     this.loadOpen = this._loadOpen;
     this.isExpanded = this._loadOpen;
 
+    this.controller.popup = this;
+    this.target.popup = this;
+
     this.controller.setAttribute('aria-haspopup', 'true');
     this.controller.setAttribute('aria-expanded', `${this.loadOpen}`);
     this.controller.setAttribute('aria-controls', this.targetId);
