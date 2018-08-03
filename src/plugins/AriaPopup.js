@@ -293,6 +293,10 @@ export default class AriaPopup extends Aria {
       child.removeAttribute('tabindex');
     });
 
+    this.controller.removeEventListener('click', this.ariaToggle);
+    this.target.removeEventListener('keydown', this.keyDownHandler);
+    document.body.removeEventListener('click', this.outsideClick);
+
     let destroy = null;
     const detail = { expanded: this.isExpanded };
     destroy = Aria.createAriaEvent('popupdestroy', detail);
