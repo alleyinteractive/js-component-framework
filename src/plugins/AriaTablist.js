@@ -136,7 +136,7 @@ export default class AriaTablist extends Aria {
    * @param {Object} event The event object.
    */
   keyDownHandler(event) {
-    if (event.keyCode === this.tabKey && ! event.shiftKey) {
+    if (event.keyCode === this.tabKey && !event.shiftKey) {
       this.tabKeyDown(event);
     } else if (this.key.arrows.test(event.keyCode)) {
       this.arrowKeyDown(event);
@@ -184,14 +184,17 @@ export default class AriaTablist extends Aria {
         default:
           newIndex = null;
       }
-      event.preventDefault();
 
-      activate.index = newIndex;
-      activate.tab = this.tabs[newIndex];
-      activate.panel = this.panels[newIndex];
+      if (undefined !== this.tabs[newIndex]) {
+        event.preventDefault();
 
-      this.updateTabs(deactivate, activate);
-      activate.tab.focus();
+        activate.index = newIndex;
+        activate.tab = this.tabs[newIndex];
+        activate.panel = this.panels[newIndex];
+
+        this.updateTabs(deactivate, activate);
+        activate.tab.focus();
+      }
     } else if (event.keyCode === this.key.arrDown) {
       event.preventDefault();
       this.panels[currentIndex].setAttribute('tabindex', '-1');
