@@ -5,11 +5,13 @@ import Aria from './Aria';
 /**
  * Manage aria-haspopup elements
  *
- * @param {Object} config - Config options for AriaPopup
- * @param {HTMLElement} config.controller - The controlling element
- * @param {HTMLElement} config.target - The element controlled by `controller`
- * @param {Object} config.attributes - An Object of aria-* attributes to be added to the `target`, where the key completes an 'aria-' attribute name and the value is a valid attribute value.
- * @param {Boolean} config.loadOpen - Whether or not the popup should load expanded by default
+ * @param {Object} config                 Config options for AriaPopup
+ * @param {HTMLElement} config.controller The controlling element
+ * @param {HTMLElement} config.target     The element controlled by `controller`
+ * @param {Object} config.attributes      An Object of aria-* attributes to be added to the `target`, where the key
+ *                                        completes an 'aria-' attribute name and the value is a valid attribute value.
+ * @param {Boolean} config.loadOpen       Whether or not the popup should load expanded by default
+ * @param {String} config.hasTransition   Delay updating post- hide/show routines until after `transitionend`
  *
  * E.g.:
  * const popup = new AriaPopup({
@@ -21,6 +23,7 @@ import Aria from './Aria';
  *     describedby: 'verbose-element-id'
  *   }
  *   loadOpen: true,
+ *   hasTransition: true,
  * });
  */
 export default class AriaPopup extends Aria {
@@ -31,6 +34,7 @@ export default class AriaPopup extends Aria {
     this.target = config.target;
     this.attributes = config.attributes || {};
     this._loadOpen = config.loadOpen || false;
+    this.hasTransition = config.hasTransition || false;
 
     this.targetElement = this.target;
 
@@ -46,6 +50,7 @@ export default class AriaPopup extends Aria {
     this.ariaSetup = this.ariaSetup.bind(this);
     this._hide = this._hide.bind(this);
     this._show = this._show.bind(this);
+    this._postToggle = this._postToggle.bind(this);
     this._destroy = this._destroy.bind(this);
     this._reset = this._reset.bind(this);
     this.ariaHide = this.ariaHide.bind(this);
@@ -86,6 +91,10 @@ export default class AriaPopup extends Aria {
     this.controller.addEventListener('click', this.ariaToggle);
     this.target.addEventListener('keydown', this.keyDownHandler);
     document.body.addEventListener('click', this.outsideClick);
+
+    if (this.hasTransition) {
+      this.target.addEventListener('transitionend', this._postToggle);
+    }
   }
 
   /**
@@ -184,6 +193,30 @@ export default class AriaPopup extends Aria {
   }
 
   /**
+   * Post-toggle cleanup.
+   * Adjust focus and tabindex, dispatch the event.
+   *
+   * @private
+   */
+  _postToggle() {
+    if (this.isExpanded) {
+      this.collectInteractiveChildren();
+      this.rovingTabIndex();
+      this.setFocusToFirstItem();
+    } else {
+      this.rovingTabIndex();
+    }
+
+    let show = null;
+    const detail = { expanded: this.isExpanded };
+    show = Aria.createAriaEvent(
+      this.isExpanded ? 'popupshow' : 'popuphide',
+      detail
+    );
+    this.controller.dispatchEvent(show);
+  }
+
+  /**
    * Externally-exposed hide method
    */
   ariaHide() {
@@ -206,12 +239,9 @@ export default class AriaPopup extends Aria {
     this.isExpanded = false;
     this.loadOpen = false;
 
-    let hide = null;
-    const detail = { expanded: this.isExpanded };
-    hide = Aria.createAriaEvent('popuphide', detail);
-    this.controller.dispatchEvent(hide);
-
-    this.rovingTabIndex();
+    if (! this.hasTransition) {
+      this._postToggle();
+    }
   }
 
   /**
@@ -232,14 +262,9 @@ export default class AriaPopup extends Aria {
 
     this.isExpanded = true;
 
-    let show = null;
-    const detail = { expanded: this.isExpanded };
-    show = Aria.createAriaEvent('popupshow', detail);
-    this.controller.dispatchEvent(show);
-
-    this.collectInteractiveChildren();
-    this.rovingTabIndex();
-    this.setFocusToFirstItem();
+    if (! this.hasTransition) {
+      this._postToggle();
+    }
   }
 
   /**
