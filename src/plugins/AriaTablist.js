@@ -55,7 +55,7 @@ export default class AriaTablist extends Aria {
     this.ariaSwitchTab = this.ariaSwitchTab.bind(this);
     this._updateTabs = this._updateTabs.bind(this);
     this.updateTabs = this.updateTabs.bind(this);
-    this.tearDown = this.tearDown.bind(this);
+    this.destroy = this.destroy.bind(this);
 
     Aria.eventPolyfill();
 
@@ -100,10 +100,11 @@ export default class AriaTablist extends Aria {
       this.shiftTabKeyDown
     );
 
-    let tabInit = null;
-    const detail = { activePanel: this.panels[this.index] };
-    tabInit = Aria.createAriaEvent('tabinit', detail);
-    this.tablist.dispatchEvent(tabInit);
+    Aria.dispatchAriaEvent(
+      'tablistinit',
+      { activePanel: this.panels[this.index] },
+      this.tablist
+    );
   }
 
   /**
@@ -133,7 +134,7 @@ export default class AriaTablist extends Aria {
    * @param {Object} event The event object.
    */
   keyDownHandler(event) {
-    if (event.keyCode === this.tabKey && !event.shiftKey) {
+    if (event.keyCode === this.tabKey && ! event.shiftKey) {
       this.tabKeyDown(event);
     } else if (this.key.arrows.test(event.keyCode)) {
       this.arrowKeyDown(event);
@@ -263,10 +264,11 @@ export default class AriaTablist extends Aria {
 
       activate.panel.addEventListener('keydown', this.shiftTabKeyDown);
 
-      let tabChange = null;
-      const detail = { activePanel: this.panels[this.index] };
-      tabChange = Aria.createAriaEvent('tabchange', detail);
-      this.tablist.dispatchEvent(tabChange);
+      Aria.dispatchAriaEvent(
+        'tablistchange',
+        { activePanel: this.panels[this.index] },
+        this.tablist
+      );
     }
   }
 
@@ -297,7 +299,7 @@ export default class AriaTablist extends Aria {
   /**
    * Destroy the tablist, removing ARIA attributes and event listeners
    */
-  tearDown() {
+  destroy() {
     this.tablist.removeAttribute('role');
 
     this.tabs.forEach((tab, index) => {
@@ -324,8 +326,10 @@ export default class AriaTablist extends Aria {
       this.shiftTabKeyDown
     );
 
-    const detail = { activePanel: null };
-    const tablistTeardown = Aria.createAriaEvent('tablistTeardown', detail);
-    this.tablist.dispatchEvent(tablistTeardown);
+    Aria.dispatchAriaEvent(
+      'tablistdestroy',
+      { activePanel: null },
+      this.tablist
+    );
   }
 }
