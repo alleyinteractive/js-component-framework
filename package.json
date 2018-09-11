@@ -34,6 +34,7 @@
     "babel-preset-env": "^1.6.1"
   },
   "dependencies": {
+    "bottleneck": "^2.9.0",
     "core-js": "^2.5.3",
     "fastdom": "^1.0.6"
   }
