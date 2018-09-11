@@ -1,5 +1,6 @@
 // Available to all components
 import Component from './Component';
+import Bottleneck from 'bottleneck';
 require('core-js/modules/es6.object.assign');
 
 /**
@@ -16,11 +17,18 @@ export default class ComponentManager {
   constructor(manifest) {
     const manifestDefaults = { components: {} };
 
+    // Set up "singleton" manifest containing references to
+    // all component instances and elements they're attached to
     window[manifest] = window[manifest] ?
-      Object.assign({}, window[manifest], manifestDefaults) :
-      manifestDefaults;
+      window[manifest] : manifestDefaults;
+    // Set up limiter to prevent race conditions in reads/writes to manifest
+    window.jsComponentFrameworkLimiter =
+      window.jsComponentFrameworkLimiter ?
+      window.jsComponentFrameworkLimiter :
+      new Bottleneck();
 
     this.manifest = window[manifest];
+    this.limiter = window.jsComponentFrameworkLimiter;
   }
 
   /**
@@ -32,61 +40,60 @@ export default class ComponentManager {
   initComponents(configs, context = document) {
     const componentConfigs = Array.isArray(configs) ? configs : [configs];
 
-    componentConfigs.forEach((config) => {
-      const componentConfig = config;
-      const componentName = componentConfig.name;
-      const ComponentClass = componentConfig.class;
+    componentConfigs.forEach(
+      (config) => this.limiter
+        .schedule(() => this.initComponent(config, context))
+    )
+  }
 
-      // Check if component is configured and extends the core Component class
-      if (ComponentClass.prototype instanceof Component) {
-        const hasComponent = Object.prototype
-          .hasOwnProperty
-          .call(this.manifest.components, componentName);
-        const componentEls = context
-          .querySelectorAll(`[data-component='${componentConfig.name}']`);
+  initComponent(componentConfig, context) {
+    const componentName = componentConfig.name;
+    const ComponentClass = componentConfig.class;
 
-        // Can't find any elements!
-        if (! componentEls.length) {
-          /* eslint-disable no-console, max-len */
-          console.info(
-            `Component '${componentName}' does not exist or is configured incorrectly.
-Check this component's config to ensure this component has a configuration object.
-Also, verify the '${componentName}' class extends the core component class located in client/js/site/Component.js`
-          );
-          /* eslint-enable */
+    // Check if component is configured and extends the core Component class
+    if (ComponentClass.prototype instanceof Component) {
+      const hasComponent = Object.keys(this.manifest.components)
+        .includes(componentName);
+      const componentEls = context
+        .querySelectorAll(`[data-component='${componentName}']`);
+
+      // Can't find any elements!
+      if (! componentEls.length) {
+        /* eslint-disable no-console, max-len */
+        console.info(`No elements found for data-component="${componentName}"`);
+        /* eslint-enable */
+        return;
+      }
+
+      // Add component to manifest if it doesn't exist already
+      if (! hasComponent) {
+        this.manifest.components[componentName] = {
+          config: componentConfig,
+          instances: [],
+        };
+      }
+
+      // Loop through elements and add instance for each
+      Array.prototype.forEach.call(componentEls, (element) => {
+        // Skip this element if we've already instantiated a component on it
+        const exists = this.manifest.components[componentName].instances
+          .some((instance) => element.isSameNode(instance.element));
+
+        if (exists) {
           return;
         }
 
-        // Add component to manifest if it doesn't exist already
-        if (! hasComponent) {
-          this.manifest.components[componentName] = {
-            config: componentConfig,
-            instances: [],
-          };
-        }
+        // Create and start instance
+        componentConfig.element = element;
+        const instance = new ComponentClass(componentConfig);
 
-        // Loop through elements and add instance for each
-        Array.prototype.forEach.call(componentEls, (element) => {
-          // Skip this element if we've already instantiated a component on it
-          const exists = this.manifest.components[componentName].instances
-            .some((instance) => element === instance.element);
-
-          if (exists) {
-            return;
-          }
-
-          // Create and start instance
-          componentConfig.element = element;
-          const instance = new ComponentClass(componentConfig);
-
-          // add instance to manifest
-          this.manifest.components[componentName].instances.push({
-            instance,
-            element,
-          });
+        // add instance to manifest
+        this.manifest.components[componentName].instances.push({
+          instance,
+          element,
         });
-      }
-    });
+      });
+    }
   }
 
   /**
@@ -113,11 +120,11 @@ Also, verify the '${componentName}' class extends the core component class locat
   static callComponentMethod(componentName, method, args = []) {
     // Does the component exist?
     if (
-      this.mainfest[componentName] &&
-      this.mainfest[componentName].instances
+      this.manifest[componentName] &&
+      this.manifest[componentName].instances
     ) {
-      this.mainfest[componentName].instances.forEach((instance) => {
-        // Use JS .apply to call the component method with proper context
+      this.manifest[componentName].instances.forEach((instance) => {
+        // Use JS .call to call the component method with proper context
         if ('function' === typeof instance[method]) {
           instance[method].call(instance, ...args);
         }
