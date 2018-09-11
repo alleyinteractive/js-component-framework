@@ -106,7 +106,7 @@ export default class ComponentManager {
     const componentConfig = this.manifest.components[componentName].config;
 
     if (componentConfig) {
-      this.initComponents([componentConfig], context)
+      this.initComponents([componentConfig], context);
     }
   }
 
@@ -120,11 +120,11 @@ export default class ComponentManager {
   static callComponentMethod(componentName, method, args = []) {
     // Does the component exist?
     if (
-      this.mainfest[componentName] &&
-      this.mainfest[componentName].instances
+      this.manifest[componentName] &&
+      this.manifest[componentName].instances
     ) {
-      this.mainfest[componentName].instances.forEach((instance) => {
-        // Use JS .apply to call the component method with proper context
+      this.manifest[componentName].instances.forEach((instance) => {
+        // Use JS .call to call the component method with proper context
         if ('function' === typeof instance[method]) {
           instance[method].call(instance, ...args);
         }
