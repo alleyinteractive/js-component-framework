@@ -211,7 +211,6 @@ export default class AriaPopup extends Aria {
     if (this.isExpanded) {
       this.collectInteractiveChildren();
       this.rovingTabIndex();
-      this.setFocusToFirstItem();
     } else {
       this.rovingTabIndex();
     }
