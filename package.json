@@ -1,6 +1,6 @@
 {
   "name": "js-component-framework",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "This framework is a method of attaching an ES6 class to a DOM element or collection of DOM elements.",
   "main": "lib/index.js",
   "scripts": {
