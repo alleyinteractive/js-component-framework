@@ -38,15 +38,15 @@ export default class Aria {
   }
 
   /**
-   * Create a CustomEvent.
+   * Dispatch a CustomEvent.
    *
    * @static
    * @param {String} type The type of the event.
    * @param {Object} detail Data to be passed with the event.
-   * @returns {Object}
+   * @param {HTMLElement} detail The element upon which the event should be dispatched.
    */
-  static createAriaEvent(type, detail = {}) {
-    return new CustomEvent(
+  static dispatchAriaEvent(type, detail = {}, element) {
+    const event = new CustomEvent(
       type,
       {
         bubbles: true,
@@ -54,6 +54,8 @@ export default class Aria {
         detail,
       }
     );
+
+    element.dispatchEvent(event);
   }
 
   /**
@@ -64,7 +66,7 @@ export default class Aria {
    * @returns {Boolean}
    */
   static isVisible(element) {
-    return !! (
+    return !!(
       element.offsetWidth ||
       element.offsetHeight ||
       element.getClientRects().length

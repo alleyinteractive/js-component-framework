@@ -8,13 +8,11 @@ import Aria from './Aria';
  * @param {Object} config - Config options for AriaTablist
  * @param {HTMLElement} config.tablist - The tab elements' parent element
  * @param {NodeList} config.panels - A list of panel elements; each panel should have a corresponding tab element in config.tabs
- * @param {MediaQueryList} config.breakpoint - An optional breakpoint definition to be used to init and/or destroy the tablist
  *
  * E.g.:
  * const tablist = new AriaTablist({
  *   tablist: tabsWrapper,
  *   panels: panelElements,
- *   breakpoint: mediaQuery
  * });
  */
 export default class AriaTablist extends Aria {
@@ -23,7 +21,6 @@ export default class AriaTablist extends Aria {
 
     this.tablist = config.tablist;
     this.panels = config.panels;
-    this.breakpoint = config.breakpoint;
 
     this.index = 0;
 
@@ -35,18 +32,20 @@ export default class AriaTablist extends Aria {
       arrDown: 40,
     };
 
-    this.tabs = [];
+    this.tablistChildren = Array.prototype.slice.call(this.tablist.children);
     this.panels = Array.prototype.slice.call(this.panels);
 
-    Array.prototype.forEach.call(this.tablist.children, (child) => {
-      if ('LI' === child.nodeName) {
-        child.setAttribute('role', 'presentation');
-        const childAnchor = child.querySelector('a[href]');
-        this.tabs.push(childAnchor);
-      } else {
-        this.tabs.push(child);
-      }
-    });
+    // Required markup is `<li><a href=""></a></li>`
+    this.tabs = this.tablistChildren
+      .filter((child) => null !== child.querySelector('a[href]'))
+      .map((child) => child.querySelector('a[href]'));
+
+    // Bail if there's a mismatch in tabs and panels
+    if (this.tabs.length !== this.panels.length) {
+      // eslint-disable-next-line max-len
+      console.error('AriaTablist requires an equal number of tabs and tabpanels');
+      return;
+    }
 
     // Bind class methods
     this.shiftTabKeyDown = this.shiftTabKeyDown.bind(this);
@@ -56,17 +55,11 @@ export default class AriaTablist extends Aria {
     this.ariaSwitchTab = this.ariaSwitchTab.bind(this);
     this._updateTabs = this._updateTabs.bind(this);
     this.updateTabs = this.updateTabs.bind(this);
-    this.handleBreakpoint = this.handleBreakpoint.bind(this);
-    this.tearDown = this.tearDown.bind(this);
+    this.destroy = this.destroy.bind(this);
 
     Aria.eventPolyfill();
 
-    if (undefined === this.breakpoint || 'object' !== typeof this.breakpoint) {
-      this.init();
-    } else {
-      this.handleBreakpoint();
-      this.breakpoint.addListener(this.handleBreakpoint);
-    }
+    this.init();
   }
 
   /**
@@ -77,6 +70,10 @@ export default class AriaTablist extends Aria {
 
     // role=tab, aria-selected
     this.tabs.forEach((tab, index) => {
+      if ('LI' === tab.parentElement.nodeName) {
+        tab.parentElement.setAttribute('role', 'presentation');
+      }
+
       tab.setAttribute('role', 'tab');
       tab.setAttribute('aria-selected', `${this.index === index}`);
       if (this.index === index) {
@@ -103,10 +100,11 @@ export default class AriaTablist extends Aria {
       this.shiftTabKeyDown
     );
 
-    let tabInit = null;
-    const detail = { activePanel: this.panels[this.index] };
-    tabInit = Aria.createAriaEvent('tabinit', detail);
-    this.tablist.dispatchEvent(tabInit);
+    Aria.dispatchAriaEvent(
+      'tablistinit',
+      { activePanel: this.panels[this.index] },
+      this.tablist
+    );
   }
 
   /**
@@ -184,14 +182,17 @@ export default class AriaTablist extends Aria {
         default:
           newIndex = null;
       }
-      event.preventDefault();
 
-      activate.index = newIndex;
-      activate.tab = this.tabs[newIndex];
-      activate.panel = this.panels[newIndex];
+      if (undefined !== this.tabs[newIndex]) {
+        event.preventDefault();
 
-      this.updateTabs(deactivate, activate);
-      activate.tab.focus();
+        activate.index = newIndex;
+        activate.tab = this.tabs[newIndex];
+        activate.panel = this.panels[newIndex];
+
+        this.updateTabs(deactivate, activate);
+        activate.tab.focus();
+      }
     } else if (event.keyCode === this.key.arrDown) {
       event.preventDefault();
       this.panels[currentIndex].setAttribute('tabindex', '-1');
@@ -263,10 +264,11 @@ export default class AriaTablist extends Aria {
 
       activate.panel.addEventListener('keydown', this.shiftTabKeyDown);
 
-      let tabChange = null;
-      const detail = { activePanel: this.panels[this.index] };
-      tabChange = Aria.createAriaEvent('tabchange', detail);
-      this.tablist.dispatchEvent(tabChange);
+      Aria.dispatchAriaEvent(
+        'tablistchange',
+        { activePanel: this.panels[this.index] },
+        this.tablist
+      );
     }
   }
 
@@ -297,7 +299,7 @@ export default class AriaTablist extends Aria {
   /**
    * Destroy the tablist, removing ARIA attributes and event listeners
    */
-  tearDown() {
+  destroy() {
     this.tablist.removeAttribute('role');
 
     this.tabs.forEach((tab, index) => {
@@ -324,19 +326,10 @@ export default class AriaTablist extends Aria {
       this.shiftTabKeyDown
     );
 
-    const detail = { activePanel: null };
-    const tablistTeardown = Aria.createAriaEvent('tablistTeardown', detail);
-    this.tablist.dispatchEvent(tablistTeardown);
-  }
-
-  /**
-   * Handle breakpoint changes as necessary.
-   */
-  handleBreakpoint() {
-    if (this.breakpoint.matches) {
-      this.init();
-    } else {
-      this.tearDown();
-    }
+    Aria.dispatchAriaEvent(
+      'tablistdestroy',
+      { activePanel: null },
+      this.tablist
+    );
   }
 }

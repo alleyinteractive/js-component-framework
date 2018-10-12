@@ -5,10 +5,13 @@ import Aria from './Aria';
 /**
  * Manage aria-haspopup elements
  *
- * @param {Object} config - Config options for AriaPopup
- * @param {HTMLElement} config.controller - The controlling element
- * @param {HTMLElement} config.target - The element controlled by `controller`
- * @param {Object} config.attributes - An Object of aria-* attributes to be added to the `target`, where the key completes an 'aria-' attribute name and the value is a valid attribute value.
+ * @param {Object} config                 Config options for AriaPopup
+ * @param {HTMLElement} config.controller The controlling element
+ * @param {HTMLElement} config.target     The element controlled by `controller`
+ * @param {Object} config.attributes      An Object of aria-* attributes to be added to the `target`, where the key
+ *                                        completes an 'aria-' attribute name and the value is a valid attribute value.
+ * @param {Boolean} config.loadOpen       Whether or not the popup should load expanded by default
+ * @param {String} config.hasTransition   Delay updating post- hide/show routines until after `transitionend`
  *
  * E.g.:
  * const popup = new AriaPopup({
@@ -19,6 +22,8 @@ import Aria from './Aria';
  *     labelledby: 'element-id'
  *     describedby: 'verbose-element-id'
  *   }
+ *   loadOpen: true,
+ *   hasTransition: true,
  * });
  */
 export default class AriaPopup extends Aria {
@@ -28,11 +33,12 @@ export default class AriaPopup extends Aria {
     this.controller = config.controller;
     this.target = config.target;
     this.attributes = config.attributes || {};
+    this._loadOpen = config.loadOpen || false;
+    this.hasTransition = config.hasTransition || false;
 
     this.targetElement = this.target;
 
     this.targetAttr = {};
-    this.isExpanded = false;
 
     // Bind class methods
     this.setTargetAttributes = this.setTargetAttributes.bind(this);
@@ -44,6 +50,7 @@ export default class AriaPopup extends Aria {
     this.ariaSetup = this.ariaSetup.bind(this);
     this._hide = this._hide.bind(this);
     this._show = this._show.bind(this);
+    this._postToggle = this._postToggle.bind(this);
     this._destroy = this._destroy.bind(this);
     this._reset = this._reset.bind(this);
     this.ariaHide = this.ariaHide.bind(this);
@@ -62,15 +69,21 @@ export default class AriaPopup extends Aria {
    * Add initial attributes, establish relationships, and listen for events
    */
   ariaSetup() {
+    this.loadOpen = this._loadOpen;
+    this.isExpanded = this._loadOpen;
+
+    this.controller.popup = this;
+    this.target.popup = this;
+
     this.controller.setAttribute('aria-haspopup', 'true');
-    this.controller.setAttribute('aria-expanded', 'false');
+    this.controller.setAttribute('aria-expanded', `${this.loadOpen}`);
     this.controller.setAttribute('aria-controls', this.targetId);
 
     if (this.target !== this.controller.nextElementSibling) {
       this.controller.setAttribute('aria-owns', this.targetId);
     }
 
-    this.target.setAttribute('aria-hidden', 'true');
+    this.target.setAttribute('aria-hidden', `${! this.loadOpen}`);
 
     Object.keys(this.targetAttr).forEach((attr) => {
       this.target.setAttribute(attr, this.targetAttr[attr]);
@@ -81,6 +94,16 @@ export default class AriaPopup extends Aria {
     this.controller.addEventListener('click', this.ariaToggle);
     this.target.addEventListener('keydown', this.keyDownHandler);
     document.body.addEventListener('click', this.outsideClick);
+
+    if (this.hasTransition) {
+      this.target.addEventListener('transitionend', this._postToggle);
+    }
+
+    Aria.dispatchAriaEvent(
+      'popupinit',
+      { expanded: this.isExpanded },
+      this.controller
+    );
   }
 
   /**
@@ -110,6 +133,7 @@ export default class AriaPopup extends Aria {
   outsideClick(event) {
     if (
       this.isExpanded &&
+      ! this.loadOpen &&
       ! this.controller.contains(event.target) &&
       ! this.target.contains(event.target)
     ) {
@@ -123,7 +147,7 @@ export default class AriaPopup extends Aria {
    * @param {Object} event The event object.
    */
   keyDownHandler(event) {
-    if (this.isExpanded) {
+    if (this.isExpanded && ! this.loadOpen) {
       if (event.keyCode === this.tabKey) {
         this.keydownTabOut(event);
       } else if (event.keyCode === this.escapeKey) {
@@ -178,6 +202,27 @@ export default class AriaPopup extends Aria {
   }
 
   /**
+   * Post-toggle cleanup.
+   * Adjust focus and tabindex, dispatch the event.
+   *
+   * @private
+   */
+  _postToggle() {
+    if (this.isExpanded) {
+      this.collectInteractiveChildren();
+      this.rovingTabIndex();
+    } else {
+      this.rovingTabIndex();
+    }
+
+    Aria.dispatchAriaEvent(
+      this.isExpanded ? 'popupshow' : 'popuphide',
+      { expanded: this.isExpanded },
+      this.controller
+    );
+  }
+
+  /**
    * Externally-exposed hide method
    */
   ariaHide() {
@@ -198,13 +243,11 @@ export default class AriaPopup extends Aria {
     this.target.setAttribute('aria-hidden', 'true');
 
     this.isExpanded = false;
+    this.loadOpen = false;
 
-    let hide = null;
-    const detail = { expanded: this.isExpanded };
-    hide = Aria.createAriaEvent('popuphide', detail);
-    this.controller.dispatchEvent(hide);
-
-    this.rovingTabIndex();
+    if (! this.hasTransition) {
+      this._postToggle();
+    }
   }
 
   /**
@@ -225,14 +268,9 @@ export default class AriaPopup extends Aria {
 
     this.isExpanded = true;
 
-    let show = null;
-    const detail = { expanded: this.isExpanded };
-    show = Aria.createAriaEvent('popupshow', detail);
-    this.controller.dispatchEvent(show);
-
-    this.collectInteractiveChildren();
-    this.rovingTabIndex();
-    this.setFocusToFirstItem();
+    if (! this.hasTransition) {
+      this._postToggle();
+    }
   }
 
   /**
@@ -278,6 +316,7 @@ export default class AriaPopup extends Aria {
     });
 
     this.isExpanded = false;
+    this.loadOpen = false;
 
     this.collectInteractiveChildren();
 
@@ -285,10 +324,15 @@ export default class AriaPopup extends Aria {
       child.removeAttribute('tabindex');
     });
 
-    let destroy = null;
-    const detail = { expanded: this.isExpanded };
-    destroy = Aria.createAriaEvent('popupdestroy', detail);
-    this.controller.dispatchEvent(destroy);
+    this.controller.removeEventListener('click', this.ariaToggle);
+    this.target.removeEventListener('keydown', this.keyDownHandler);
+    document.body.removeEventListener('click', this.outsideClick);
+
+    Aria.dispatchAriaEvent(
+      'popupdestroy',
+      { expanded: this.isExpanded },
+      this.controller
+    );
   }
 
   /**
@@ -309,10 +353,5 @@ export default class AriaPopup extends Aria {
     if (this.target.contains(document.activeElement)) {
       this.controller.focus();
     }
-
-    let reset = null;
-    const detail = { expanded: false };
-    reset = Aria.createAriaEvent('popupreset', detail);
-    this.controller.dispatchEvent(reset);
   }
 }

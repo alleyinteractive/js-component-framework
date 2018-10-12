@@ -75,6 +75,12 @@ export default class AriaDialog extends Aria {
     Object.keys(this.attributes).forEach((attr) => {
       this.element.setAttribute(`aria-${attr}`, this.attributes[attr]);
     });
+
+    Aria.dispatchAriaEvent(
+      'dialoginit',
+      { expanded: this.isShown },
+      this.element
+    );
   }
 
   /**
@@ -83,7 +89,7 @@ export default class AriaDialog extends Aria {
    * @param {Object} event The event object.
    */
   outsideClick(event) {
-    if (this.isShown && ! this.element.contains(event.target)) {
+    if (this.isShown && !this.element.contains(event.target)) {
       this.ariaHide();
     }
   }
@@ -120,7 +126,7 @@ export default class AriaDialog extends Aria {
     if (event.shiftKey && 0 === focusedIndex) {
       event.preventDefault();
       this.interactiveChildElements[lastItem].focus();
-    } else if (! event.shiftKey && focusedIndex === lastItem) { // eslint-disable-line max-len
+    } else if (!event.shiftKey && focusedIndex === lastItem) {
       event.preventDefault();
       this.interactiveChildElements[0].focus();
     }
@@ -155,10 +161,11 @@ export default class AriaDialog extends Aria {
     document.body.removeEventListener('keydown', this.keyDownHandler);
     this.overlay.removeEventListener('click', this.outsideClick);
 
-    let hide = null;
-    const detail = { expanded: this.isShown };
-    hide = Aria.createAriaEvent('dialoghide', detail);
-    this.element.dispatchEvent(hide);
+    Aria.dispatchAriaEvent(
+      'dialoghide',
+      { expanded: this.isShown },
+      this.element
+    );
 
     this.focusEl.focus();
   }
@@ -186,10 +193,11 @@ export default class AriaDialog extends Aria {
     document.body.addEventListener('keydown', this.keyDownHandler);
     this.overlay.addEventListener('click', this.outsideClick);
 
-    let show = null;
-    const detail = { expanded: this.isShown };
-    show = Aria.createAriaEvent('dialogshow', detail);
-    this.element.dispatchEvent(show);
+    Aria.dispatchAriaEvent(
+      'dialogshow',
+      { expanded: this.isShown },
+      this.element
+    );
 
     this.collectInteractiveChildren();
     this.setFocusToFirstItem();
