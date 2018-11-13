@@ -326,6 +326,7 @@ export default class AriaPopup extends Aria {
 
     this.controller.removeEventListener('click', this.ariaToggle);
     this.target.removeEventListener('keydown', this.keyDownHandler);
+    this.target.removeEventListener('transitionend', this._postToggle);
     document.body.removeEventListener('click', this.outsideClick);
 
     Aria.dispatchAriaEvent(
