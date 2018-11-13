@@ -207,19 +207,21 @@ export default class AriaPopup extends Aria {
    *
    * @private
    */
-  _postToggle() {
-    if (this.isExpanded) {
-      this.collectInteractiveChildren();
-      this.rovingTabIndex();
-    } else {
-      this.rovingTabIndex();
-    }
+  _postToggle(event) {
+    if (undefined === event || this.target === event.target) {
+      if (this.isExpanded) {
+        this.collectInteractiveChildren();
+        this.rovingTabIndex();
+      } else {
+        this.rovingTabIndex();
+      }
 
-    Aria.dispatchAriaEvent(
-      this.isExpanded ? 'popupshow' : 'popuphide',
-      { expanded: this.isExpanded },
-      this.controller
-    );
+      Aria.dispatchAriaEvent(
+        this.isExpanded ? 'popupshow' : 'popuphide',
+        { expanded: this.isExpanded },
+        this.controller
+      );
+    }
   }
 
   /**
