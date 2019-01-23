@@ -1,6 +1,6 @@
 // Available to all components
 import Component from './Component';
-import Bottleneck from 'bottleneck';
+import Bottleneck from 'bottleneck/es5';
 require('core-js/modules/es6.object.assign');
 
 /**
