@@ -1,4 +1,6 @@
 // Available to all components
+import 'core-js/fn/promise';
+import 'core-js/fn/array/includes';
 import Component from './Component';
 import Bottleneck from 'bottleneck/es5';
 require('core-js/modules/es6.object.assign');
