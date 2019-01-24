@@ -31,11 +31,17 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
+    "babel-plugin-transform-es2015-parameters": "^6.24.1",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.1"
   },
   "dependencies": {
-    "bottleneck": "^2.9.0",
+    "bottleneck": "^2.15.3",
     "core-js": "^2.5.3",
     "fastdom": "^1.0.6"
-  }
+  },
+  "browserslist": [
+    "last 2 versions",
+    "ie 11"
+  ]
 }
