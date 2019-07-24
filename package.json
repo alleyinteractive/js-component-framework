@@ -36,6 +36,7 @@
     "babel-plugin-transform-es2015-parameters": "^6.24.1"
   },
   "dependencies": {
+    "@babel/runtime": "^7.5.5",
     "bottleneck": "^2.15.3",
     "core-js": "^2.5.3",
     "fastdom": "^1.0.6"
