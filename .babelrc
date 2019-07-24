@@ -1,12 +1,11 @@
 {
   "plugins": [
     "transform-es2015-parameters",
-    ["transform-runtime", {
-      "polyfill": false,
+    ["@babel/transform-runtime", {
       "regenerator": true
     }]
   ],
   "presets": [
-    ["env"]
+    ["@babel/preset-env"]
   ]
 }
