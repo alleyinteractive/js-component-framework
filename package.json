@@ -1,17 +1,17 @@
 {
   "name": "js-component-framework",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "This framework is a method of attaching an ES6 class to a DOM element or collection of DOM elements.",
   "main": "lib/index.js",
   "scripts": {
     "prepare": "./node_modules/.bin/babel src --out-dir lib",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Alley Interactive (alleyinteractive.com)",
+  "author": "Alley Interactive (alley.co)",
   "contributors": [
-    "Owen Stowe <owen@alleyinteractive.com> (alleyinteractive.com)",
-    "Pattie Reaves <pattie@alleyinteractive.com> (alleyinteractive.com)",
-    "Ryan Domingue <ryan@alleyinteractive.com> (alleyinteractive.com)"
+    "Owen Stowe <owen@alley.co> (alley.co)",
+    "Pattie Reaves <pattie@alley.co> (alley.co)",
+    "Ryan Domingue <ryan@alley.co> (alley.co)"
   ],
   "license": "GPL-2.0",
   "repository": {
