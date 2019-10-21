@@ -2,7 +2,7 @@
 import 'core-js/fn/promise';
 import 'core-js/fn/array/includes';
 import Component from './Component';
-import Bottleneck from 'bottleneck/es5';
+import limiter from './limiter';
 require('core-js/modules/es6.object.assign');
 
 /**
@@ -27,7 +27,7 @@ export default class ComponentManager {
     window.jsComponentFrameworkLimiter =
       window.jsComponentFrameworkLimiter ?
       window.jsComponentFrameworkLimiter :
-      new Bottleneck();
+      limiter;
 
     this.manifest = window[manifest];
     this.limiter = window.jsComponentFrameworkLimiter;
@@ -43,8 +43,7 @@ export default class ComponentManager {
     const componentConfigs = Array.isArray(configs) ? configs : [configs];
 
     componentConfigs.forEach(
-      (config) => this.limiter
-        .schedule(() => this.initComponent(config, context))
+      this.limiter((config) => this.initComponent(config, context), 500)
     )
   }
 
