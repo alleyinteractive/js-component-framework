@@ -38,11 +38,11 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.13.4",
-    "core-js": "^2.6.12",
+    "core-js": "^3.19.2",
     "fastdom": "^1.0.10"
   },
   "browserslist": [
-    "last 2 versions",
-    "ie 11"
+    "defaults",
+    "not IE 11"
   ]
 }

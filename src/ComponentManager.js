@@ -1,9 +1,7 @@
 // Available to all components
 import 'core-js/fn/promise';
-import 'core-js/fn/array/includes';
 import Component from './Component';
 import limiter from './limiter';
-require('core-js/modules/es6.object.assign');
 
 /**
  * Internal class for instantiating the Module Manager
