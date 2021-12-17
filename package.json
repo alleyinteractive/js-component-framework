@@ -30,15 +30,13 @@
   "homepage": "https://github.com/alleyinteractive/js-component-framework#readme",
   "devDependencies": {
     "@babel/cli": "^7.13.0",
-    "@babel/core": "^7.13.1",
-    "@babel/plugin-transform-runtime": "^7.13.4",
-    "@babel/plugin-transform-spread": "^7.13.0",
-    "@babel/preset-env": "^7.13.0",
-    "babel-plugin-transform-es2015-parameters": "^6.24.1"
+    "@babel/core": "^7.16.5",
+    "@babel/plugin-transform-runtime": "^7.16.5",
+    "@babel/preset-env": "^7.16.5"
   },
   "dependencies": {
-    "@babel/runtime": "^7.13.4",
-    "core-js": "^3.19.2",
+    "@babel/runtime": "^7.16.5",
+    "core-js": "^3.20.0",
     "fastdom": "^1.0.10"
   },
   "browserslist": [
