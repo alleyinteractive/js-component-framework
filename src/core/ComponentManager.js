@@ -1,5 +1,4 @@
 // Available to all components
-import 'core-js/fn/promise';
 import Component from './Component';
 import limiter from './limiter';
 
@@ -35,7 +34,7 @@ export default class ComponentManager {
    * Loop through component elements and instantiate the component for each
    *
    * @param {object|array} configs - config or configs corresponding to components you want to instance
-   * @param {HTMLElement} context - context on which to initalize components, default is `document`
+   * @param {HTMLElement} context - context on which to initialize components, default is `document`
    */
   initComponents(configs, context = document) {
     const componentConfigs = Array.isArray(configs) ? configs : [configs];

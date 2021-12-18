@@ -1,9 +1,9 @@
-import Component from './Component';
-import ComponentManager from './ComponentManager';
-import * as plugins from './plugins';
+import Component from './core/Component';
+import ComponentManager from './core/ComponentManager';
+import * as Aria from './Aria';
 
 export {
   ComponentManager,
   Component,
-  plugins,
+  Aria
 };
