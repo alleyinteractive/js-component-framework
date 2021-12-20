@@ -1,0 +1,26 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
+  "extends": ["airbnb"],
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "globalReturn": true,
+      "impliedStrict": true
+    },
+    "sourceType": "module"
+  },
+  "rules": {
+    "max-len": [
+      "error", { "ignoreComments": true }
+    ]
+  },
+  "settings": {
+    "react": {
+      "version": "999.999.999"
+    }
+  }
+}

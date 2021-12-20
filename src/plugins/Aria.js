@@ -9,7 +9,7 @@ export default class Aria {
    * @returns {Boolean}
    */
   static eventPolyfill() {
-    if ('function' === typeof window.CustomEvent) {
+    if (typeof window.CustomEvent === 'function') {
       return false;
     }
 
@@ -19,14 +19,14 @@ export default class Aria {
         bubbles: false,
         cancelable: false,
         detail: undefined,
-      }
+      },
     ) {
       const evt = document.createEvent('CustomEvent');
       evt.initCustomEvent(
         event,
         params.bubbles,
         params.cancelable,
-        params.detail
+        params.detail,
       );
       return evt;
     }
@@ -42,17 +42,17 @@ export default class Aria {
    *
    * @static
    * @param {String} type The type of the event.
-   * @param {Object} detail Data to be passed with the event.
    * @param {HTMLElement} detail The element upon which the event should be dispatched.
+   * @param {Object} detail Data to be passed with the event.
    */
-  static dispatchAriaEvent(type, detail = {}, element) {
+  static dispatchAriaEvent(type, element, detail = {}) {
     const event = new CustomEvent(
       type,
       {
         bubbles: true,
         cancelable: true,
         detail,
-      }
+      },
     );
 
     element.dispatchEvent(event);
@@ -67,9 +67,9 @@ export default class Aria {
    */
   static isVisible(element) {
     return !!(
-      element.offsetWidth ||
-      element.offsetHeight ||
-      element.getClientRects().length
+      element.offsetWidth
+      || element.offsetHeight
+      || element.getClientRects().length
     );
   }
 
@@ -116,18 +116,17 @@ export default class Aria {
     if (undefined === this.targetElement) {
       // eslint-disable-next-line no-console
       console.error(
-        'No `targetElement` specified for collectInteractiveChildren'
+        'No `targetElement` specified for collectInteractiveChildren',
       );
       return;
     }
 
     const interactiveElements = this.targetElement.querySelectorAll(
-      this.selectors
+      this.selectors,
     );
     this.interactiveChildElements = Array.prototype.filter.call(
       interactiveElements,
-      (child) =>
-        this.constructor.isVisible(child)
+      (child) => this.constructor.isVisible(child),
     );
   }
 

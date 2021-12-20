@@ -4,7 +4,11 @@
   "description": "This framework is a method of attaching an ES6 class to a DOM element or collection of DOM elements.",
   "main": "lib/index.js",
   "scripts": {
-    "prepare": "./node_modules/.bin/babel src --out-dir lib",
+    "build-core": "npx babel src/core --out-dir core",
+    "build-main": "npx babel src --out-dir lib",
+    "lint": "npx eslint src/**",
+    "lint:fix": "npx eslint src/** --fix",
+    "prepare": "npm run build-core && npm run build-main",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Alley Interactive (alley.co)",
@@ -31,8 +35,11 @@
   "devDependencies": {
     "@babel/cli": "^7.13.0",
     "@babel/core": "^7.16.5",
+    "@babel/eslint-parser": "^7.16.5",
     "@babel/plugin-transform-runtime": "^7.16.5",
-    "@babel/preset-env": "^7.16.5"
+    "@babel/preset-env": "^7.16.5",
+    "eslint": "^8.5.0",
+    "eslint-config-airbnb": "^19.0.2"
   },
   "dependencies": {
     "@babel/runtime": "^7.16.5",

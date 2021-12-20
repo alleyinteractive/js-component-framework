@@ -5,24 +5,26 @@
  * @param {function} fn function to call.
  * @param {integer} wait interval between function calls.
  */
-function limiter(fn, wait){
-  let isCalled = false,
-      calls = [];
+function limiter(fn, wait) {
+  let isCalled = false;
+  const calls = [];
 
-  let caller = function(){
-      if (calls.length && !isCalled){
-          isCalled = true;
-          calls.shift().call();
-          setTimeout(function(){
-              isCalled = false;
-              caller();
-          }, wait);
-      }
+  // eslint-disable-next-line func-names
+  const caller = function () {
+    if (calls.length && !isCalled) {
+      isCalled = true;
+      calls.shift().call();
+      setTimeout(() => {
+        isCalled = false;
+        caller();
+      }, wait);
+    }
   };
 
-  return function(){
-      calls.push(fn.bind(this, ...arguments));
-      caller();
+  // eslint-disable-next-line func-names
+  return function (...args) {
+    calls.push(fn.bind(this, args));
+    caller();
   };
 }
 

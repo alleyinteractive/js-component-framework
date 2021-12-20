@@ -37,12 +37,12 @@ export default class AriaTablist extends Aria {
 
     // Required markup is `<li><a href=""></a></li>`
     this.tabs = this.tablistChildren
-      .filter((child) => null !== child.querySelector('a[href]'))
+      .filter((child) => child.querySelector('a[href]') !== null)
       .map((child) => child.querySelector('a[href]'));
 
     // Bail if there's a mismatch in tabs and panels
     if (this.tabs.length !== this.panels.length) {
-      // eslint-disable-next-line max-len
+      // eslint-disable-next-line max-len, no-console
       console.error('AriaTablist requires an equal number of tabs and tabpanels');
       return;
     }
@@ -70,7 +70,7 @@ export default class AriaTablist extends Aria {
 
     // role=tab, aria-selected
     this.tabs.forEach((tab, index) => {
-      if ('LI' === tab.parentElement.nodeName) {
+      if (tab.parentElement.nodeName === 'LI') {
         tab.parentElement.setAttribute('role', 'presentation');
       }
 
@@ -97,13 +97,13 @@ export default class AriaTablist extends Aria {
 
     this.panels[this.index].addEventListener(
       'keydown',
-      this.shiftTabKeyDown
+      this.shiftTabKeyDown,
     );
 
     Aria.dispatchAriaEvent(
       'tablistinit',
+      this.tablist,
       { activePanel: this.panels[this.index] },
-      this.tablist
     );
   }
 
@@ -117,9 +117,9 @@ export default class AriaTablist extends Aria {
       const focusIndex = this.interactiveChildElements
         .indexOf(document.activeElement);
 
-      if (0 === focusIndex) {
+      if (focusIndex === 0) {
         const currentPanel = this.panels
-          .filter((panel) => ('false' === panel.getAttribute('aria-hidden')));
+          .filter((panel) => (panel.getAttribute('aria-hidden') === 'false'));
         const panelIndex = this.panels.indexOf(currentPanel[0]);
 
         event.preventDefault();
@@ -134,7 +134,7 @@ export default class AriaTablist extends Aria {
    * @param {Object} event The event object.
    */
   keyDownHandler(event) {
-    if (event.keyCode === this.tabKey && ! event.shiftKey) {
+    if (event.keyCode === this.tabKey && !event.shiftKey) {
       this.tabKeyDown(event);
     } else if (this.key.arrows.test(event.keyCode)) {
       this.arrowKeyDown(event);
@@ -225,8 +225,8 @@ export default class AriaTablist extends Aria {
     let hidden = 'true';
 
     if (
-      (null !== deactivate.tab || null !== activate.tab) ||
-      (null !== deactivate.panel || null !== activate.panel)
+      (deactivate.tab !== null || activate.tab !== null)
+      || (deactivate.panel !== null || activate.panel !== null)
     ) {
       // Update current tab
       deactivate.tab.setAttribute('tabindex', '-1');
@@ -240,7 +240,7 @@ export default class AriaTablist extends Aria {
         this.interactiveChildElements,
         (focusElement) => {
           focusElement.setAttribute('tabindex', '-1');
-        }
+        },
       );
 
       deactivate.panel.removeEventListener('keydown', this.shiftTabKeyDown);
@@ -255,7 +255,7 @@ export default class AriaTablist extends Aria {
       this.collectInteractiveChildren();
 
       Array.prototype.forEach.call(this.interactiveChildElements, (element) => {
-        if ('-1' === element.getAttribute('tabindex')) {
+        if (element.getAttribute('tabindex') === '-1') {
           element.removeAttribute('tabindex');
         }
       });
@@ -266,8 +266,8 @@ export default class AriaTablist extends Aria {
 
       Aria.dispatchAriaEvent(
         'tablistchange',
+        this.tablist,
         { activePanel: this.panels[this.index] },
-        this.tablist
       );
     }
   }
@@ -283,7 +283,7 @@ export default class AriaTablist extends Aria {
 
     event.preventDefault();
 
-    if ('true' !== event.target.getAttribute('aria-selected')) {
+    if (event.target.getAttribute('aria-selected') !== 'true') {
       deactivate.tab = this.tablist.querySelector('[aria-selected="true"]');
       const currentTablistIndex = this.tabs.indexOf(deactivate.tab);
       deactivate.panel = this.panels[currentTablistIndex];
@@ -323,13 +323,13 @@ export default class AriaTablist extends Aria {
 
     this.panels[this.index].removeEventListener(
       'keydown',
-      this.shiftTabKeyDown
+      this.shiftTabKeyDown,
     );
 
     Aria.dispatchAriaEvent(
       'tablistdestroy',
+      this.tablist,
       { activePanel: null },
-      this.tablist
     );
   }
 }
