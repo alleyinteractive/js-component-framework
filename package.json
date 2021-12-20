@@ -29,6 +29,7 @@
     "url": "https://github.com/alleyinteractive/js-component-framework/issues"
   },
   "files": [
+    "core",
     "lib"
   ],
   "homepage": "https://github.com/alleyinteractive/js-component-framework#readme",
