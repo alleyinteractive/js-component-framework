@@ -1,5 +1,4 @@
-import Component from './Component';
-import ComponentManager from './ComponentManager';
+import { Component, ComponentManager } from './core';
 import * as plugins from './plugins';
 
 export {

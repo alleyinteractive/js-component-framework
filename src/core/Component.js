@@ -1,9 +1,8 @@
 /**
- * Internal, extendable class for instatianting components.
- * Each compoment should contain functionality for a single DOM element or selector.
+ * Internal, extendable class for instantiating components.
+ * Each component should contain functionality for a single DOM element or selector.
  */
 export default class Component {
-
   /**
    * Create a component
    *
@@ -53,11 +52,11 @@ export default class Component {
    * Get the top offset of an element relative to a specific DOM node.
    *
    * @param {HTMLElement} el - Element for which you need the offset
-   * @param {HTMLElement} context - Element relative to which the offset should be calculcated
+   * @param {HTMLElement} context - Element relative to which the offset should be calculated
    */
   getOffsetTop(el, context) {
-    return (context === el) ? 0 :
-      el.offsetTop + this.getOffsetTop(el.parentElement, context);
+    return (context === el) ? 0
+      : el.offsetTop + this.getOffsetTop(el.parentElement, context);
   }
 
   /**

@@ -1,15 +1,11 @@
 // Available to all components
-import 'core-js/fn/promise';
-import 'core-js/fn/array/includes';
 import Component from './Component';
 import limiter from './limiter';
-require('core-js/modules/es6.object.assign');
 
 /**
  * Internal class for instantiating the Module Manager
  */
 export default class ComponentManager {
-
   /**
    * Start the component manager
    *
@@ -21,13 +17,12 @@ export default class ComponentManager {
 
     // Set up "singleton" manifest containing references to
     // all component instances and elements they're attached to
-    window[manifest] = window[manifest] ?
-      window[manifest] : manifestDefaults;
+    window[manifest] = window[manifest]
+      ? window[manifest] : manifestDefaults;
     // Set up limiter to prevent race conditions in reads/writes to manifest
-    window.jsComponentFrameworkLimiter =
-      window.jsComponentFrameworkLimiter ?
-      window.jsComponentFrameworkLimiter :
-      limiter;
+    window.jsComponentFrameworkLimiter = window.jsComponentFrameworkLimiter
+      ? window.jsComponentFrameworkLimiter
+      : limiter;
 
     this.manifest = window[manifest];
     this.limiter = window.jsComponentFrameworkLimiter;
@@ -37,14 +32,14 @@ export default class ComponentManager {
    * Loop through component elements and instantiate the component for each
    *
    * @param {object|array} configs - config or configs corresponding to components you want to instance
-   * @param {HTMLElement} context - context on which to initalize components, default is `document`
+   * @param {HTMLElement} context - context on which to initialize components, default is `document`
    */
   initComponents(configs, context = document) {
     const componentConfigs = Array.isArray(configs) ? configs : [configs];
 
     componentConfigs.forEach(
-      this.limiter((config) => this.initComponent(config, context), 500)
-    )
+      this.limiter((config) => this.initComponent(config, context), 500),
+    );
   }
 
   initComponent(componentConfig, context) {
@@ -59,7 +54,7 @@ export default class ComponentManager {
         .querySelectorAll(`[data-component='${componentName}']`);
 
       // Can't find any elements!
-      if (! componentEls.length) {
+      if (!componentEls.length) {
         /* eslint-disable no-console, max-len */
         console.info(`No elements found for data-component="${componentName}"`);
         /* eslint-enable */
@@ -67,7 +62,7 @@ export default class ComponentManager {
       }
 
       // Add component to manifest if it doesn't exist already
-      if (! hasComponent) {
+      if (!hasComponent) {
         this.manifest.components[componentName] = {
           config: componentConfig,
           instances: [],
@@ -85,8 +80,9 @@ export default class ComponentManager {
         }
 
         // Create and start instance
-        componentConfig.element = element;
-        const instance = new ComponentClass(componentConfig);
+        const configCopy = componentConfig;
+        configCopy.element = element;
+        const instance = new ComponentClass(configCopy);
 
         // add instance to manifest
         this.manifest.components[componentName].instances.push({
@@ -101,7 +97,7 @@ export default class ComponentManager {
    * Loop through and restart components (use, for example, if you've removed and re-added components from the DOM and need the JS started again)
    *
    * @param {string} componentName - name of component to instantiate
-   * @param {HTMLElement} context - context on which to initalize components, default is entire document
+   * @param {HTMLElement} context - context on which to initialize components, default is entire document
    */
   reinitComponent(componentName, context) {
     const componentConfig = this.manifest.components[componentName].config;
@@ -121,12 +117,12 @@ export default class ComponentManager {
   static callComponentMethod(componentName, method, args = []) {
     // Does the component exist?
     if (
-      this.manifest[componentName] &&
-      this.manifest[componentName].instances
+      this.manifest[componentName]
+      && this.manifest[componentName].instances
     ) {
       this.manifest[componentName].instances.forEach((instance) => {
         // Use JS .call to call the component method with proper context
-        if ('function' === typeof instance[method]) {
+        if (typeof instance[method] === 'function') {
           instance[method].call(instance, ...args);
         }
       });

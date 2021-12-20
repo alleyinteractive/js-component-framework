@@ -17,7 +17,7 @@ export default class Header extends Component {
     // Other Options
     this.offset = this.options.offset;
 
-    // Initalizations
+    // Initializations
     this.init();
   }
 

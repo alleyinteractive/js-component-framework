@@ -44,7 +44,7 @@ export default class AriaDialog extends Aria {
     this.targetElement = this.element;
 
     this.overlay = document.getElementById('aria-dialog-overlay');
-    if (null === this.overlay) {
+    if (this.overlay === null) {
       this.overlay = this.constructor.createOverlayElement();
       document.body.insertBefore(this.overlay, this.element);
     }
@@ -78,8 +78,8 @@ export default class AriaDialog extends Aria {
 
     Aria.dispatchAriaEvent(
       'dialoginit',
+      this.element,
       { expanded: this.isShown },
-      this.element
     );
   }
 
@@ -118,12 +118,12 @@ export default class AriaDialog extends Aria {
     this.collectInteractiveChildren();
     const focusedIndex = Array.prototype.indexOf.call(
       this.interactiveChildElements,
-      document.activeElement
+      document.activeElement,
     );
 
     const lastItem = this.interactiveChildElements.length - 1;
 
-    if (event.shiftKey && 0 === focusedIndex) {
+    if (event.shiftKey && focusedIndex === 0) {
       event.preventDefault();
       this.interactiveChildElements[lastItem].focus();
     } else if (!event.shiftKey && focusedIndex === lastItem) {
@@ -163,8 +163,8 @@ export default class AriaDialog extends Aria {
 
     Aria.dispatchAriaEvent(
       'dialoghide',
+      this.element,
       { expanded: this.isShown },
-      this.element
     );
 
     this.focusEl.focus();
@@ -195,8 +195,8 @@ export default class AriaDialog extends Aria {
 
     Aria.dispatchAriaEvent(
       'dialogshow',
+      this.element,
       { expanded: this.isShown },
-      this.element
     );
 
     this.collectInteractiveChildren();

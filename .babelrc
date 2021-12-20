@@ -1,12 +1,4 @@
 {
-  "plugins": [
-    "transform-es2015-parameters",
-    ["@babel/transform-runtime", {
-      "regenerator": true
-    }],
-    "@babel/plugin-transform-spread"
-  ],
-  "presets": [
-    ["@babel/preset-env"]
-  ]
+  "plugins": ["@babel/plugin-transform-runtime"],
+  "presets": ["@babel/preset-env"]
 }
