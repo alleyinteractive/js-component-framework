@@ -1,4 +1,4 @@
-# Component Starter Framework
+# Component Framework
 
 A framework for attaching an ES6 class to a DOM element or collection of DOM elements, making it easier to organize the DOM interactions on your website.
 
@@ -15,6 +15,38 @@ The library will ...
 * add each instance of the component to a global manifest on the `window` object, using a property provided when you instanced the manager.
 
 This results in distinct (and encapsulated) functionality for each DOM element.
+
+## Getting Started
+
+Install the js-component-framework and all the plugins:
+```bash
+npm install js-component-framework
+```
+Below is a basic set up for using the component framework without the included Aria plugins:
+
+```javascript
+// Import only the core component framework library.
+import { Component } from 'js-component-framework/core';
+
+/**
+ * Custom component which extends the base component class.
+ */
+class MyComponent extends Component {
+
+  /**
+   * Start the component
+   */
+  constructor(config) {
+    super(config);
+  }
+}
+```
+
+If you also want to use the entire framework with the bundled Aria plugins use the default import:
+```js
+import { Component, plugins } from 'js-component-framework';
+```
+
 
 ## Best practices for creating components
 
