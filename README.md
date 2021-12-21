@@ -25,8 +25,8 @@ npm install js-component-framework
 Below is a basic set up for using the component framework without the included Aria plugins:
 
 ```javascript
-// Import only the core component framework library.
-import { Component } from 'js-component-framework/core';
+// Import the ES modules to be consumed by a bundler such as webpack append the '/es' to the end of the import statement.
+import { Component } from 'js-component-framework/es';
 
 /**
  * Custom component which extends the base component class.
@@ -42,11 +42,10 @@ class MyComponent extends Component {
 }
 ```
 
-If you also want to use the entire framework with the bundled Aria plugins use the default import:
+If you also want to use the entire framework using the CommonJS bundled scripts with Aria plugins use the default import:
 ```js
 import { Component, plugins } from 'js-component-framework';
 ```
-
 
 ## Best practices for creating components
 
@@ -74,6 +73,11 @@ To create a component, do the following at the top of the file:
 import { Component } from 'js-component-framework';
 ```
 
+If you are compiling your code with a bundler like webpack, only import what you need for a smaller footprint:
+```js
+import { Component } from 'js-component-framework/es';
+```
+
 When writing a component class, are some rules you need to follow and some guidelines:
 
 * You _must_ provide a constructor. At minimum, the constructor should look like the following:
@@ -96,7 +100,7 @@ Generally speaking, you'll want to instantiate your component in the footer or o
 
 ```js
 
-import { ComponentManager } from `js-component-framework`;
+import { ComponentManager } from `js-component-framework/es`;
 import headerConfig from `./Components/Header`;
 
 // Instantiate manager
