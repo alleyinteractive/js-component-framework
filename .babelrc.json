@@ -1,0 +1,23 @@
+{
+  "env": {
+    "es": {
+      "plugins": ["@babel/plugin-transform-runtime"],
+      "presets": [
+        [
+          "@babel/preset-env",
+          {
+            "modules": false
+          }
+        ]
+      ]
+    },
+    "cjs": {
+      "plugins": ["@babel/plugin-transform-runtime"],
+      "presets": [
+        [
+          "@babel/preset-env"
+        ]
+      ]
+    }
+  }
+}

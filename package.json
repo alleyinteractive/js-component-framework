@@ -3,12 +3,13 @@
   "version": "2.0.2",
   "description": "This framework is a method of attaching an ES6 class to a DOM element or collection of DOM elements.",
   "main": "lib/index.js",
+  "module": "es/index.js",
   "scripts": {
-    "build-core": "npx babel src/core --out-dir core",
-    "build-main": "npx babel src --out-dir lib",
+    "build:commonjs": "NODE_ENV=cjs npx babel src --out-dir lib",
+    "build:esm": "NODE_ENV=es npx babel src --out-dir es",
     "lint": "npx eslint src/**",
     "lint:fix": "npx eslint src/** --fix",
-    "prepare": "npm run build-core && npm run build-main",
+    "prepare": "npm run build:esm && npm run build:commonjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Alley Interactive (alley.co)",
@@ -29,7 +30,7 @@
     "url": "https://github.com/alleyinteractive/js-component-framework/issues"
   },
   "files": [
-    "core",
+    "es",
     "lib"
   ],
   "homepage": "https://github.com/alleyinteractive/js-component-framework#readme",
