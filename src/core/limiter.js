@@ -22,8 +22,9 @@ function limiter(fn, wait) {
   };
 
   // eslint-disable-next-line func-names
-  return function (...args) {
-    calls.push(fn.bind(this, args));
+  return function () {
+    // eslint-disable-next-line prefer-rest-params
+    calls.push(fn.bind(this, ...arguments));
     caller();
   };
 }
