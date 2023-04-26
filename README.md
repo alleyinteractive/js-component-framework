@@ -76,7 +76,7 @@ The component will automatically be initialized according to the `config.load` v
 **config** _(Required)_ A component config object.
 
 ```javascript
-import { componentProvider } from '@/js/component-framework';
+import { componentProvider } from 'js-component-framework';
 import productDetails from './productDetails';
 
 const productDetailsConfig = {
@@ -111,6 +111,7 @@ export default wrappedComponent;
 ```javascript
 // my-component/index.js
 
+import { componentLoader } from 'js-component-framework';
 import wrappedComponent from './my-component';
 
 componentLoader(wrappedComponent, [window, 'load']);
