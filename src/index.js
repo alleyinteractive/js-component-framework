@@ -1,8 +1,10 @@
-import { Component, ComponentManager } from './core';
-import * as plugins from './plugins';
+// export * from './core';
+import componentProvider from './core/componentProvider';
+import componentLoader from './core/componentLoader';
+import domContentLoaded from './core/domContentLoaded';
 
 export {
-  ComponentManager,
-  Component,
-  plugins,
+  componentProvider,
+  componentLoader,
+  domContentLoaded,
 };
