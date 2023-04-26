@@ -44,8 +44,7 @@
     "eslint-config-airbnb": "^19.0.2"
   },
   "dependencies": {
-    "@babel/runtime": "^7.16.5",
-    "fastdom": "^1.0.10"
+    "@babel/runtime": "^7.16.5"
   },
   "browserslist": [
     "defaults",

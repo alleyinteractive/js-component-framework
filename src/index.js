@@ -1,7 +1,6 @@
-// export * from './core';
-import componentProvider from './core/componentProvider';
-import componentLoader from './core/componentLoader';
-import domContentLoaded from './core/domContentLoaded';
+import componentProvider from './componentProvider';
+import componentLoader from './componentLoader';
+import domContentLoaded from './domContentLoaded';
 
 export {
   componentProvider,

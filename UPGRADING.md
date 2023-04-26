@@ -3,6 +3,8 @@ Upgrading from v1 to v2
 
 Only classical components were supported in v1 of js-component-framework. This document outlines the steps to convert them to be used with v2 of this package.
 
+The plugins have been removed. Consider using [aria-components](https://www.npmjs.com/package/aria-components) instead.
+
 ## Starting Point
 
 ```javascript
