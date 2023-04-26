@@ -59,8 +59,8 @@ export default headerConfig;
 
 ```javascript
 // site.js
-import { ComponentManager } from `js-component-framework/es`;
-import headerConfig from `./components/Header`;
+import { ComponentManager } from 'js-component-framework/es';
+import headerConfig from './components/Header';
 
 const manager = new ComponentManager('namespace');
 
@@ -125,7 +125,7 @@ export default class Header {
 
 ```diff
 // index.js
-+ import { componentProvider } from `js-component-framework/es`;
++ import { componentProvider } from 'js-component-framework/es';
 import Header from './Header';
 
 const headerConfig = {
@@ -148,9 +148,9 @@ const headerConfig = {
 
 ```diff
 // site.js
-- import { ComponentManager } from `js-component-framework/es`;
-- import headerConfig from `./components/Header`;
-+ import `./components/Header`;
+- import { ComponentManager } from 'js-component-framework/es';
+- import headerConfig from './components/Header';
++ import './components/Header';
 
 - const manager = new ComponentManager('namespace');
 
@@ -215,5 +215,5 @@ componentProvider(headerConfig);
 
 ```javascript
 // site.js
-import  `./components/Header`;
+import  './components/Header';
 ```
