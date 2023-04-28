@@ -29,6 +29,12 @@ npm install js-component-framework
 
 ## Creating a Component
 
+Component elements are denoted by a `data-component` attribute, the value of which is used to match the component to its element(s).
+
+```
+<header data-component="site-header">...</header>
+```
+
 ### The Configuration Object
 
 **name**: _(Required)_ - The component name. This must match the component root element's `data-component` attribute value.
