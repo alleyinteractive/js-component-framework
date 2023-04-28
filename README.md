@@ -5,6 +5,20 @@ A framework for configuring a JavaScript component and attaching it to a DOM ele
 
 Components can be ES6 classes or simple functions, and their child nodes are collected automatically based on the component configuration and passed to the component, which reduces or removes the need to write DOM queries for each component.
 
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Mqxx/GitHub-Markdown/main/blockquotes/badge/light-theme/warning.svg">
+  <img alt="Warning" src="https://raw.githubusercontent.com/Mqxx/GitHub-Markdown/main/blockquotes/badge/dark-theme/warning.svg">
+</picture><br>
+
+Version 3.0.0 contains breaking changes. See [documentation for v1 & v2](src/deprecated/) for backward compatibility.
+
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Mqxx/GitHub-Markdown/main/blockquotes/badge/light-theme/info.svg">
+  <img alt="Info" src="https://raw.githubusercontent.com/Mqxx/GitHub-Markdown/main/blockquotes/badge/dark-theme/info.svg">
+</picture><br>
+
+**Coming from a previous version?** Find upgrade documentation in [UPGRADING.md](UPGRADING.md).
+
 ## Getting Started
 
 Install js-component-framework from [NPM](https://www.npmjs.com/package/js-component-framework).
