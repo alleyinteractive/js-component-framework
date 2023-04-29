@@ -4,14 +4,6 @@
  */
 export default class Component {
   /**
-   * The string description for this class.
-   * @private
-   *
-   * @type {String}
-   */
-  #stringDescription = 'FrameworkComponent';
-
-  /**
    * Create a component
    *
    * @property {HTMLElement} config.element          The component element.
@@ -58,8 +50,8 @@ export default class Component {
    *
    * @return {string}
    */
-  get [Symbol.toStringTag]() {
-    return this.#stringDescription;
+  get [Symbol.toStringTag]() { // eslint-disable-line class-methods-use-this
+    return 'FrameworkComponent';
   }
 
   /**

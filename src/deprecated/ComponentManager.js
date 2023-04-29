@@ -51,7 +51,7 @@ export default class ComponentManager {
     const componentSelector = `[data-component='${componentName}']`;
 
     // Check if component extends the core Component class
-    if (ComponentClass.toString() === '[object FrameworkComponent]') {
+    if (ComponentClass.prototype.toString() === '[object FrameworkComponent]') {
       const componentEls = context.querySelectorAll(componentSelector);
 
       if (!componentEls.length) {
