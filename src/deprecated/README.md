@@ -62,6 +62,12 @@ Component elements are denoted by a `data-component` attribute, the value of whi
 <header data-component="site-header">...</header>
 ```
 
+### Endpoints
+
+* `'js-component-framework'`: Exports all deprecated and current code.
+* `'js-component-framework/deprecated'`: Exports only deprecate code. Useful for projects that are unable to prioritize a full upgrade.
+* `'js-component-framework/es/deprecated'`: Exports ES modules, resulting in an even smaller bundle size.
+
 ### The Configuration Object
 
 **name**: _(Required)_ - The component name. This must match the component root element's `data-component` attribute value.

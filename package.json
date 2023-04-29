@@ -49,5 +49,11 @@
   "browserslist": [
     "defaults",
     "not IE 11"
-  ]
+  ],
+  "exports": {
+    "./core": "./lib/core",
+    "./es/core": "./es/core",
+    "./deprecated": "./lib/deprecated",
+    "./es/deprecated": "./es/deprecated"
+  }
 }
