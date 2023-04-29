@@ -1,15 +1,9 @@
-import componentProvider from './componentProvider';
-import componentLoader from './componentLoader';
-import domContentLoaded from './domContentLoaded';
-import Component from './deprecated/Component';
-import ComponentManager from './deprecated/ComponentManager';
-
-export {
-  componentProvider,
-  componentLoader,
-  domContentLoaded,
-
-  // Deprecated.
-  Component,
-  ComponentManager,
-};
+/**
+ * Exports everything.
+ *
+ * To decrease bundle sizes:
+ * - For < v3, import from `js-component-framework/deprecated`
+ * - For v3+, import from `js-component-framework/core`
+ */
+export * from './core';
+export * from './deprecated';
