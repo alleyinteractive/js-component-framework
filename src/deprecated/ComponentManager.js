@@ -29,7 +29,7 @@ export default class ComponentManager {
    */
   initComponents = (configs, context = document) => {
     Array.from(configs).forEach((config) => (
-      this.constructor.initComponent(config, context)
+      this.initComponent(config, context)
     ));
   };
 
