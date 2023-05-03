@@ -53,7 +53,7 @@
   "exports": {
     "./core": "./lib/core",
     "./es/core": "./es/core",
-    "./deprecated": "./lib/deprecated",
-    "./es/deprecated": "./es/deprecated"
+    "./v2": "./lib/v2",
+    "./es/v2": "./es/v2"
   }
 }

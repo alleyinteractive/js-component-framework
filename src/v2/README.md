@@ -1,13 +1,11 @@
-# Previous Versions
+# Version 2
 
 <picture>
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Mqxx/GitHub-Markdown/main/blockquotes/badge/light-theme/warning.svg">
-  <img alt="Warning" src="https://raw.githubusercontent.com/Mqxx/GitHub-Markdown/main/blockquotes/badge/dark-theme/warning.svg">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Mqxx/GitHub-Markdown/main/blockquotes/badge/light-theme/info.svg">
+  <img alt="Info" src="https://raw.githubusercontent.com/Mqxx/GitHub-Markdown/main/blockquotes/badge/dark-theme/info.svg">
 </picture><br>
 
-`Component` and `ComponentManager` are deprecated. They may be removed in a future version, but remain available for backward compatibility.
-
-Find upgrade documentation in [UPGRADING.md](../../UPGRADING.md).
+Previous versions used `Component` and `ComponentManager` for component creation and initialization. They remain available for now at the `/v2` endpoint. Find upgrade documentation in [UPGRADING.md](../../UPGRADING.md).
 
 ---
 
@@ -64,9 +62,9 @@ Component elements are denoted by a `data-component` attribute, the value of whi
 
 ### Endpoints
 
-* `'js-component-framework'`: Exports all deprecated and current code.
-* `'js-component-framework/deprecated'`: Exports only deprecate code. Useful for projects that are unable to prioritize a full upgrade.
-* `'js-component-framework/es/deprecated'`: Exports ES modules, resulting in an even smaller bundle size.
+* `'js-component-framework'`: Exports all v2 and current code.
+* `'js-component-framework/v2'`: Exports only v2 code. Useful for projects that are unable to prioritize a full upgrade.
+* `'js-component-framework/es/v2'`: Exports ES modules, resulting in an even smaller bundle size.
 
 ### The Configuration Object
 
