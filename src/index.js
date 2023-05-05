@@ -1,9 +1,9 @@
-/**
- * Exports everything.
- *
- * To decrease bundle sizes:
- * - For < v3, import from `js-component-framework/v2`
- * - For v3+, import from `js-component-framework/core`
- */
-export * from './core';
-export * from './v2';
+import componentProvider from './componentProvider';
+import componentLoader from './componentLoader';
+import domContentLoaded from './domContentLoaded';
+
+export {
+  componentProvider,
+  componentLoader,
+  domContentLoaded,
+};

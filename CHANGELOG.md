@@ -10,7 +10,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 **Changed**
 
 * Simplifies component creation by allowing components to be a class or a function
-* Deprecates `Component` and `ComponentManager`
+* Moves `Component` and `ComponentManager` to the `/v2` endpoint.
 
 **Removed**
 

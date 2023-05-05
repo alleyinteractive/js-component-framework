@@ -10,7 +10,7 @@ Components can be ES6 classes or simple functions, and their child nodes are col
   <img alt="Warning" src="https://raw.githubusercontent.com/Mqxx/GitHub-Markdown/main/blockquotes/badge/dark-theme/warning.svg">
 </picture><br>
 
-Version 3.0.0 contains breaking changes. See [documentation for v1 & v2](src/v2/) for backward compatibility.
+Version 3.0.0 contains breaking changes. See [v2 documentation](src/v2/) for backward compatibility.
 
 <picture>
   <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Mqxx/GitHub-Markdown/main/blockquotes/badge/light-theme/info.svg">
@@ -34,12 +34,6 @@ Component elements are denoted by a `data-component` attribute, the value of whi
 ```
 <header data-component="site-header">...</header>
 ```
-
-### Endpoints
-
-* `'js-component-framework'`: Exports all v2 and current code.
-* `'js-component-framework/core'`: Exports only current code for projects fully compatible with v3+.
-* `'js-component-framework/es/core'`: Exports ES modules, resulting in an even smaller bundle size.
 
 ### The Configuration Object
 
@@ -115,6 +109,12 @@ const productDetailsConfig = {
 };
 
 componentProvider(productDetailsConfig);
+```
+
+When using a bundler like webpack, import the ES module for a smaller footprint:
+
+```javascript
+import { componentProvider } from 'js-component-framework/es';
 ```
 
 ### componentLoader

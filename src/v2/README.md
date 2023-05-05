@@ -36,7 +36,7 @@ npm install js-component-framework
 Below is a basic set up for using the component framework:
 
 ```javascript
-import { Component } from 'js-component-framework/es';
+import { Component } from 'js-component-framework/v2';
 
 /**
  * Custom component which extends the base component class.
@@ -60,12 +60,6 @@ Component elements are denoted by a `data-component` attribute, the value of whi
 <header data-component="site-header">...</header>
 ```
 
-### Endpoints
-
-* `'js-component-framework'`: Exports all v2 and current code.
-* `'js-component-framework/v2'`: Exports only v2 code. Useful for projects that are unable to prioritize a full upgrade.
-* `'js-component-framework/es/v2'`: Exports ES modules, resulting in an even smaller bundle size.
-
 ### The Configuration Object
 
 **name**: _(Required)_ - The component name. This must match the component root element's `data-component` attribute value.
@@ -83,13 +77,13 @@ Component elements are denoted by a `data-component` attribute, the value of whi
 ❗️ All components **must** extend `Component`.
 
 ```javascript
-import { Component } from 'js-component-framework';
+import { Component } from 'js-component-framework/v2';
 ```
 
-When using a bundler like webpack, only import the ES module for a smaller footprint:
+When using a bundler like webpack, import the ES module for a smaller footprint:
 
 ```javascript
-import { Component } from 'js-component-framework/es';
+import { Component } from 'js-component-framework/es/v2';
 ```
 
 ❗️ A constructor is **required**. At minimum, the constructor should look like the following:
@@ -107,8 +101,8 @@ Import the component config in an entry point and pass that config to `Component
 **Note** `ComponentManager` will print a deprecation warning to the console. To quiet the warning, omit `ComponentManager`'s manifest namespace parameter.
 
 ```javascript
-import { ComponentManager } from `js-component-framework/es`;
-import headerConfig from `./Components/Header`;
+import { ComponentManager } from 'js-component-framework/v2';
+import headerConfig from './Components/Header';
 
 // Instantiate manager
 const manager = new ComponentManager(); // Passing nothing prevents deprecation warnings.
