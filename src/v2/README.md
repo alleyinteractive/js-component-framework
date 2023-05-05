@@ -1,29 +1,15 @@
 # Version 2
 
+A framework for attaching an ES6 class to a DOM element or collection of DOM elements, making it easier to organize the DOM interactions on your website.
+
 <picture>
   <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Mqxx/GitHub-Markdown/main/blockquotes/badge/light-theme/info.svg">
   <img alt="Info" src="https://raw.githubusercontent.com/Mqxx/GitHub-Markdown/main/blockquotes/badge/dark-theme/info.svg">
 </picture><br>
 
-Previous versions used `Component` and `ComponentManager` for component creation and initialization. They remain available for now at the `/v2` endpoint. Find upgrade documentation in [UPGRADING.md](../../UPGRADING.md).
+Find full upgrade documentation in [UPGRADING.md](../../UPGRADING.md).
 
 ---
-
-A framework for attaching an ES6 class to a DOM element or collection of DOM elements, making it easier to organize the DOM interactions on your website.
-
-## How it works
-
-A high-level overview on how it works. You ...
-
-* provide a configuration and an ES6 class (which extends the base Component class).
-* create a ComponentManager and call its `instanceComponents` method, passing it one or more component configurations created in the previous step.
-
-The library will ...
-
-* loop through every element match it finds for `data-component={componentName}` in your configuration and start an instance of the component class.
-* add each instance of the component to a global manifest on the `window` object, using a property provided when you instanced the manager.
-
-This results in distinct (and encapsulated) functionality for each DOM element.
 
 ## Getting Started
 
