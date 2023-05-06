@@ -3,9 +3,14 @@
 A framework for attaching an ES6 class to a DOM element or collection of DOM elements, making it easier to organize the DOM interactions on your website.
 
 <picture>
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Mqxx/GitHub-Markdown/main/blockquotes/badge/light-theme/info.svg">
-  <img alt="Info" src="https://raw.githubusercontent.com/Mqxx/GitHub-Markdown/main/blockquotes/badge/dark-theme/info.svg">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Mqxx/GitHub-Markdown/main/blockquotes/badge/light-theme/warning.svg">
+  <img alt="Warning" src="https://raw.githubusercontent.com/Mqxx/GitHub-Markdown/main/blockquotes/badge/dark-theme/warning.svg">
 </picture><br>
+
+Version 3.0.0 includes the following breaking changes for projects coming from v2:
+
+* **Removed**: `ComponentManager` and its manifset; use `initComponents` instead
+* **Changed**: Imports should use the `/v2` export (`'js-component-framework/v2'`)
 
 Find full upgrade documentation in [UPGRADING.md](../../UPGRADING.md).
 
@@ -82,20 +87,15 @@ constructor(config) {
 
 ## How to instantiate components
 
-Import the component config in an entry point and pass that config to `ComponentManager`'s `initComponents` method.
-
-**Note** `ComponentManager` will print a deprecation warning to the console. To quiet the warning, omit `ComponentManager`'s manifest namespace parameter.
+Import the component config in an entry point and pass that config to the `initComponents` function.
 
 ```javascript
-import { ComponentManager } from 'js-component-framework/v2';
+import { initComponents } from 'js-component-framework/v2';
 import headerConfig from './Components/Header';
-
-// Instantiate manager
-const manager = new ComponentManager(); // Passing nothing prevents deprecation warnings.
 
 // Create component instances
 document.addEventListener('DOMContentLoaded', () => {
-  manager.initComponents([
+  initComponents([
     headerConfig
   ]);
 });

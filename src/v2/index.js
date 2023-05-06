@@ -3,9 +3,9 @@
  * which a more complete upgrade isn't immediately feasible.
  */
 import Component from './Component';
-import ComponentManager from './ComponentManager';
+import initComponents from './initComponents';
 
 export {
   Component,
-  ComponentManager,
+  initComponents,
 };
