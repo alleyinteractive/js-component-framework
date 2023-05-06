@@ -6,19 +6,15 @@
 export default class ComponentManager {
   /**
    * Start the component manager.
-   *
-   * @param {string} manifest Arbitrary string maintained for backward compatibility.
    */
-  constructor(manifest = '') {
-    /**
-     * Warn about deprecation if a manifest namespace is provided.
-     *
-     * This is meant to provide a means for quieting warnings for projects
-     * unable to upgrade immediately by omitting the manifest namespace.
-     *
-     * @type {boolean}
-     */
-    this.shouldWarnDeprecated = (manifest !== '');
+  constructor() {
+    if (arguments.length > 0) {
+      console.group('js-component-framework:');
+      console.log('ComponentManager manifest is no longer supported.');
+      // eslint-disable-next-line max-len
+      console.info('See https://github.com/alleyinteractive/js-component-framework for more information.');
+      console.groupEnd();
+    }
   }
 
   /**
@@ -39,7 +35,7 @@ export default class ComponentManager {
    * @param {object} componentConfig The component configuration object.
    * @param {string} context         The component context.
    */
-  initComponent = (componentConfig, context) => {
+  initComponent = (componentConfig, context) => { // eslint-disable-line class-methods-use-this
     const {
       class: configClass,
       component,
@@ -57,16 +53,6 @@ export default class ComponentManager {
       if (!componentEls.length) {
         console.info(`No elements found for ${componentSelector}`);
         return;
-      }
-
-      if (this.shouldWarnDeprecated) {
-        console.group('js-component-framework:');
-        console.warn('Component & ComponentManager are deprecated.');
-        // eslint-disable-next-line max-len
-        console.info('See https://github.com/alleyinteractive/js-component-framework for more information.');
-        console.groupEnd();
-
-        this.shouldWarnDeprecated = false;
       }
 
       componentEls.forEach((element) => {
