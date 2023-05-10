@@ -51,9 +51,5 @@
   "browserslist": [
     "defaults",
     "not IE 11"
-  ],
-  "exports": {
-    "./v2": "./lib/v2",
-    "./es/v2": "./es/v2"
-  }
+  ]
 }
