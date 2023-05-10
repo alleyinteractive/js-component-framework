@@ -1,77 +1,38 @@
-Upgrading to v3
-=======================
+Updating
+========
 
-Only classical components were supported in previous versions of js-component-framework. This document outlines the steps to convert them to be used with v3 of this package.
+This document outlines two approaches to updating an existing project to use version 3.0.0:
+* [Add basic support for breaking changes](#add-basic-support-for-breaking-changes)
+* [Convert components for full v3 support](#convert-components-for-full-v3-support)
 
-The plugins have been removed. Consider using [aria-components](https://www.npmjs.com/package/aria-components) instead.
+Additionally, the plugins have been removed. Consider using [aria-components](https://www.npmjs.com/package/aria-components) instead.
 
-## Starting Point
+## Add basic support for breaking changes
 
-```javascript
-// Header.js
-import { Component } from 'js-component-framework';
+1. Update `Component` imports to use the `/v2` export.
 
-export default class Header extends Component {
-  constructor(config) {
-    super(config);
-
-    // Manual elements
-    this.menuToggle = this.children.menuToggle;
-
-    // Other Options
-    this.offset = this.options.offset;
-
-    // Initializations
-    this.init();
-  }
-
-  init() {
-    console.log(
-      'Access the configured child selectors via this.children'
-    );
-    console.log('Header title', this.children.title);
-    console.log('Menu toggle', this.menuToggle);
-    console.log('Header menu items', this.children.menuItems);
-  }
-}
+```diff
+- import { Component } from 'js-component-framework';
++ import { Component } from 'js-component-framework/v2';
 ```
 
-```javascript
-// index.js
-import Header from './Header';
+2. Import `initComponents`, also from the `/v2` export, and use it in place of `ComponentManager`.
 
-const headerConfig = {
-  name: 'siteHeader',
-  class: Header,
-  querySelector: {
-    title: '.site-title',
-  },
-  querySelectorAll: {
-    menuItems: '.menu-item',
-  },
-  options: {
-    offset: 100,
-  },
-};
+```diff
+- import { ComponentManager } from 'js-component-framework';
++ import { initComponents } from 'js-component-framework/v2';
 
-export default headerConfig;
+- const manager = new ComponentManager('namespace');
+
+ document.addEventListener('DOMContentLoaded', () => {
+-   manager.initComponents([
++   initComponents([
+     headerConfig
+   ]);
+ });
 ```
 
-```javascript
-// site.js
-import { ComponentManager } from 'js-component-framework';
-import headerConfig from './components/Header';
-
-const manager = new ComponentManager('namespace');
-
-document.addEventListener('DOMContentLoaded', () => {
-  manager.initComponents([
-    headerConfig
-  ]);
-});
-```
-
-## Updates
+## Convert components for full v3 support
 
 1. Change the `class` config property to `component`.
 
@@ -159,61 +120,4 @@ const headerConfig = {
 -    headerConfig
 -  ]);
 -});
-```
-
-## Result
-
-```javascript
-// Header.js
-export default class Header {
-  constructor({ element, children, options}) {
-    this.element = element;
-    this.children = children;
-    this.options = options;
-
-    // Manual elements
-    this.menuToggle = this.children.menuToggle;
-
-    // Other Options
-    this.offset = this.options.offset;
-
-    // Initializations
-    this.init();
-  }
-
-  init() {
-    console.log(
-      'Access the configured child selectors via this.children'
-    );
-    console.log('Header title', this.children.title);
-    console.log('Menu toggle', this.menuToggle);
-    console.log('Header menu items', this.children.menuItems);
-  }
-}
-```
-
-```javascript
-// index.js
-import Header from './Header';
-
-const headerConfig = {
-  name: 'siteHeader',
-  component: Header,
-  querySelector: {
-    title: '.site-title',
-  },
-  querySelectorAll: {
-    menuItems: '.menu-item',
-  },
-  options: {
-    offset: 100,
-  },
-};
-
-componentProvider(headerConfig);
-```
-
-```javascript
-// site.js
-import  './components/Header';
 ```
