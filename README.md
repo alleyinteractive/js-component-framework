@@ -17,7 +17,7 @@ Version 3.0.0 contains breaking changes. See [v2 documentation](src/v2/) for bac
   <img alt="Info" src="https://raw.githubusercontent.com/Mqxx/GitHub-Markdown/main/blockquotes/badge/dark-theme/info.svg">
 </picture><br>
 
-**Coming from a previous version?** Find full upgrade documentation in [UPGRADING.md](UPGRADING.md).
+**Coming from a previous version?** Find full upgrade documentation in [the Wiki](https://github.com/alleyinteractive/js-component-framework/wiki/Updating-to-v3).
 
 ## Getting Started
 

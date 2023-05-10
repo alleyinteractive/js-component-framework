@@ -12,7 +12,7 @@ Version 3.0.0 includes the following breaking changes for projects coming from v
 * **Removed**: `ComponentManager` and its manifset; use `initComponents` instead
 * **Changed**: Imports should use the `/v2` export (`'js-component-framework/v2'`)
 
-Find full upgrade documentation in [UPGRADING.md](../../UPGRADING.md).
+Find full upgrade documentation in [the Wiki](https://github.com/alleyinteractive/js-component-framework/wiki/Updating-to-v3).
 
 ---
 
