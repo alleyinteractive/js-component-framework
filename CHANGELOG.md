@@ -5,18 +5,20 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 **Added**
 
-* Use `componentProvider` and `componentLoader` to initialize and load components
+* Adds `componentProvider` for initializing and loading components
+* Adds `initComponents` for initializing legacy components using the `/v2` export
 
 **Changed**
 
 * Simplifies component creation by allowing components to be a class or a function
-* Moves `Component` and `ComponentManager` to the `/v2` endpoint.
+* Moves `Component` to the `/v2` endpoint
 
 **Removed**
 
-* Speeds up code execution by removing the rate limiter and writes to `window[manifest]`
+* Removes the rate limiter and writes to `window[manifest]`, which results in faster code execution
+* Removes `ComponentManager`; use `initComponents` instead
 * Removes Aria plugins; consider using [aria-components](https://www.npmjs.com/package/aria-components) instead.
-* Removes the `/core` import endpoint due to code restructuring
+* Removes the `/core` export due to code restructuring
 
 ## 2.1.0
 
