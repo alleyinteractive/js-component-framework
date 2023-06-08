@@ -14,7 +14,7 @@ export default function componentLoader(init, load = domContentLoaded) {
       const [element, event] = load;
 
       // e.g., load: [window, 'load']
-      element.addEventListener(event, init);
+      element?.addEventListener(event, init);
     }
   }
 }

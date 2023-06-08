@@ -27,6 +27,7 @@ document.body.innerHTML = `
         <li>Third List Item</li>
       </ul>
     </div>
+    <div id="event-root"></div>
   </div>
 `;
 
@@ -43,6 +44,8 @@ const baseConfig = {
   },
   options: { testing: true },
 };
+
+const eventRoot = document.querySelector('#event-root');
 
 // Compile expected args for single instance.
 const element = document.querySelector('#test-one');
@@ -110,4 +113,50 @@ test('Returns the expected function for multiple instances when `load:false`', (
 
   expect(config.component).toHaveBeenNthCalledWith(1, testTwoExpected[0]);
   expect(config.component).toHaveBeenNthCalledWith(2, testTwoExpected[1]);
+});
+
+test('Loads on event for single instance', () => {
+  const config = {
+    ...baseConfig,
+    name: 'test-one',
+    load: [eventRoot, 'jscf-test-one-event'],
+  };
+
+  componentProvider(config);
+  expect(config.component).toHaveBeenCalledTimes(0);
+
+  eventRoot.dispatchEvent(new CustomEvent('jscf-test-one-event'));
+  expect(config.component).toHaveBeenCalledTimes(1);
+  expect(config.component).toHaveBeenCalledWith(singleExpected);
+});
+
+test('Loads on event for multiple instances', () => {
+  const config = {
+    ...baseConfig,
+    name: 'test-two',
+    load: [eventRoot, 'jscf-test-two-event'],
+  };
+
+  componentProvider(config);
+  expect(config.component).toHaveBeenCalledTimes(0);
+
+  eventRoot.dispatchEvent(new CustomEvent('jscf-test-two-event'));
+  expect(config.component).toHaveBeenCalledTimes(2);
+
+  expect(config.component).toHaveBeenNthCalledWith(1, testTwoExpected[0]);
+  expect(config.component).toHaveBeenNthCalledWith(2, testTwoExpected[1]);
+});
+
+test('Fails silently on `null` event root', () => {
+  const config = {
+    ...baseConfig,
+    name: 'test-one',
+    load: [null, 'jscf-null-test'],
+  };
+
+  componentProvider(config);
+  expect(config.component).toHaveBeenCalledTimes(0);
+
+  eventRoot.dispatchEvent(new CustomEvent('jscf-null-test'));
+  expect(config.component).toHaveBeenCalledTimes(0);
 });
