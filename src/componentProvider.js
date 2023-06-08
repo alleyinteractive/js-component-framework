@@ -4,7 +4,7 @@ import componentLoader from './componentLoader';
  * Compile component elements and DOM attachments.
  *
  * @param {Object} config The component config.
- * @returns {Function} A function to initialize the component.
+ * @returns {Function|undefined} A function to initialize the component.
  */
 export default function componentProvider(config) {
   const {

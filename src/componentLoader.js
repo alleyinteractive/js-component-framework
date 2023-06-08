@@ -4,7 +4,7 @@ import domContentLoaded from './domContentLoaded';
  * Execute the given function according to the `load` parameter.
  *
  * @param {function} init The function to execute.
- * @param {mixed}    load The loading instructions.
+ * @param {boolean|array|function} load The loading instructions.
  */
 export default function componentLoader(init, load = domContentLoaded) {
   if (init) {
