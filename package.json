@@ -5,8 +5,8 @@
   "main": "lib/index.js",
   "module": "es/index.js",
   "scripts": {
-    "build:commonjs": "NODE_ENV=cjs npx babel src --out-dir lib",
-    "build:esm": "NODE_ENV=es npx babel src --out-dir es",
+    "build:commonjs": "NODE_ENV=cjs npx babel src --out-dir lib --ignore 'src/*.test.js'",
+    "build:esm": "NODE_ENV=es npx babel src --out-dir es --ignore 'src/*.test.js'",
     "lint": "npx eslint src/**",
     "lint:fix": "npx eslint src/** --fix",
     "prepare": "npm run build:esm && npm run build:commonjs",
