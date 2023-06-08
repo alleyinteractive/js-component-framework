@@ -7,7 +7,7 @@ import domContentLoaded from './domContentLoaded';
  * @param {mixed}    load The loading instructions.
  */
 export default function componentLoader(init, load = domContentLoaded) {
-  if (init != null) {
+  if (init) {
     if (typeof load === 'function') {
       load(init);
     } else if (Array.isArray(load)) {
