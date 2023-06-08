@@ -97,7 +97,8 @@ The component will automatically be initialized according to the `config.load` v
 
 ```javascript
 import { componentProvider } from 'js-component-framework';
-import productDetails from './productDetails';
+
+function productDetails({ element, children, options }) { ... }
 
 const productDetailsConfig = {
   name: 'product-details',
@@ -140,5 +141,7 @@ export default wrappedComponent;
 import { componentLoader } from 'js-component-framework';
 import wrappedComponent from './my-component';
 
+// This is a contrived example; in a real-world component this same outcome can 
+// be accomplished simply by setting the config load value to `[window, 'load']`
 componentLoader(wrappedComponent, [window, 'load']);
 ```
