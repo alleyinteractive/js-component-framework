@@ -10,7 +10,8 @@
     "lint": "npx eslint src/**",
     "lint:fix": "npx eslint src/** --fix",
     "prepare": "npm run build:esm && npm run build:commonjs",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "start": "jest --watchAll"
   },
   "author": "Alley Interactive (alley.com)",
   "contributors": [
@@ -42,8 +43,12 @@
     "@babel/eslint-parser": "^7.16.5",
     "@babel/plugin-transform-runtime": "^7.16.5",
     "@babel/preset-env": "^7.16.5",
+    "babel-jest": "^29.5.0",
     "eslint": "^8.5.0",
-    "eslint-config-airbnb": "^19.0.2"
+    "eslint-config-airbnb": "^19.0.2",
+    "jest": "^29.5.0",
+    "jest-cli": "^29.5.0",
+    "jest-environment-jsdom": "^29.5.0"
   },
   "dependencies": {
     "@babel/runtime": "^7.16.5"
