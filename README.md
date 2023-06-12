@@ -1,7 +1,7 @@
 JS Component Framework
 ======================
 
-A framework for configuring a JavaScript component and attaching it to a DOM element or collection of DOM elements, simplifying organization of DOM interactions on your website.
+A zero-dependency framework for configuring a JavaScript component and attaching it to a DOM element or collection of DOM elements, simplifying organization of DOM interactions on your website.
 
 Components can be ES6 classes or simple functions, and their child nodes are collected automatically based on the component configuration and passed to the component, which reduces or removes the need to write DOM queries for each component.
 

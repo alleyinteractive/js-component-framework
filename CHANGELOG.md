@@ -13,6 +13,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * Simplifies component creation by allowing components to be a class or a function
 * Moves `Component` to the `/v2` endpoint
 
+**Fixed**
+
+* Removes extraneous dependencies
+
 **Removed**
 
 * Removes the rate limiter and writes to `window[manifest]`, which results in faster code execution
