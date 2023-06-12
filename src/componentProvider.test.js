@@ -160,3 +160,20 @@ test('Fails silently on `null` event root', () => {
   eventRoot.dispatchEvent(new CustomEvent('jscf-null-test'));
   expect(config.component).toHaveBeenCalledTimes(0);
 });
+
+test('Provides an empty options object when options are undefined', () => {
+  const config = { ...baseConfig, name: 'test-one' };
+  delete config.options;
+
+  componentProvider(config);
+  expect(config.component).toHaveBeenCalledTimes(1);
+  expect(config.component).toHaveBeenCalledWith({ ...singleExpected, options: {} });
+});
+
+test('Allows minimal config', () => {
+  const config = { name: 'test-one', component: jest.fn() };
+
+  componentProvider(config);
+  expect(config.component).toHaveBeenCalledTimes(1);
+  expect(config.component).toHaveBeenCalledWith({ element, children: {}, options: {} });
+});
