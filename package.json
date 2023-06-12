@@ -1,6 +1,6 @@
 {
   "name": "js-component-framework",
-  "version": "3.0.0-beta.2",
+  "version": "3.0.0",
   "description": "A framework for configuring a JavaScript component and attaching it to a DOM element or collection of DOM elements, simplifying organization of DOM interactions on your website.",
   "main": "lib/index.js",
   "module": "es/index.js",
