@@ -6,21 +6,22 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 **Added**
 
 * Adds `componentProvider` for initializing and loading components
-* Adds `initComponents` for initializing legacy components using the `/v2` export
+* Adds `componentLoader` for optionally loading the function returned from `componentProvider`
 
 **Changed**
 
 * Simplifies component creation by allowing components to be a class or a function
-* Moves `Component` to the `/v2` endpoint
+* No longer writes to `window[manifest]`
+* Replaces `ComponentManager` with `initComponents` for initializing legacy components using the `/v2` export
+* Moves `Component` to the `/v2` export
 
 **Fixed**
 
-* Removes extraneous dependencies
+* Moves `@babel/runtime` to devDependencies
 
 **Removed**
 
-* Removes the rate limiter and writes to `window[manifest]`, which results in faster code execution
-* Removes `ComponentManager`; use `initComponents` instead
+* Removes the rate limiter
 * Removes Aria plugins; consider using [aria-components](https://www.npmjs.com/package/aria-components) instead.
 * Removes the `/core` export due to code restructuring
 
