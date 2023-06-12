@@ -1,8 +1,7 @@
-import { Component, ComponentManager } from './core';
-import * as plugins from './plugins';
+import componentProvider from './componentProvider';
+import componentLoader from './componentLoader';
 
 export {
-  ComponentManager,
-  Component,
-  plugins,
+  componentProvider,
+  componentLoader,
 };

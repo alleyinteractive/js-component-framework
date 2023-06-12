@@ -1,22 +1,25 @@
 {
   "name": "js-component-framework",
-  "version": "2.1.0",
-  "description": "This framework is a method of attaching an ES6 class to a DOM element or collection of DOM elements.",
+  "version": "3.0.0",
+  "description": "A framework for configuring a JavaScript component and attaching it to a DOM element or collection of DOM elements, simplifying organization of DOM interactions on your website.",
   "main": "lib/index.js",
   "module": "es/index.js",
   "scripts": {
-    "build:commonjs": "NODE_ENV=cjs npx babel src --out-dir lib",
-    "build:esm": "NODE_ENV=es npx babel src --out-dir es",
+    "build:commonjs": "NODE_ENV=cjs npx babel src --out-dir lib --ignore 'src/*.test.js'",
+    "build:esm": "NODE_ENV=es npx babel src --out-dir es --ignore 'src/*.test.js'",
     "lint": "npx eslint src/**",
     "lint:fix": "npx eslint src/** --fix",
     "prepare": "npm run build:esm && npm run build:commonjs",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "start": "jest --watchAll"
   },
-  "author": "Alley Interactive (alley.co)",
+  "author": "Alley Interactive (alley.com)",
   "contributors": [
-    "Owen Stowe <owen@alley.co> (alley.co)",
-    "Pattie Reaves <pattie@alley.co> (alley.co)",
-    "Ryan Domingue <ryan@alley.co> (alley.co)"
+    "Matthew Ell <matt.ell@alley.com> (alley.com)",
+    "Owen Stowe <owen@alley.com> (alley.com)",
+    "Pattie Reaves <pattie@alley.com> (alley.com)",
+    "Ryan Domingue <ryan@alley.com> (alley.com)",
+    "Steven Slack <steven@alley.com> (alley.com)"
   ],
   "license": "GPL-2.0",
   "repository": {
@@ -40,12 +43,13 @@
     "@babel/eslint-parser": "^7.16.5",
     "@babel/plugin-transform-runtime": "^7.16.5",
     "@babel/preset-env": "^7.16.5",
-    "eslint": "^8.5.0",
-    "eslint-config-airbnb": "^19.0.2"
-  },
-  "dependencies": {
     "@babel/runtime": "^7.16.5",
-    "fastdom": "^1.0.10"
+    "babel-jest": "^29.5.0",
+    "eslint": "^8.5.0",
+    "eslint-config-airbnb": "^19.0.2",
+    "jest": "^29.5.0",
+    "jest-cli": "^29.5.0",
+    "jest-environment-jsdom": "^29.5.0"
   },
   "browserslist": [
     "defaults",
