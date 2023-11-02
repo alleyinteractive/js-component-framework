@@ -1,6 +1,12 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.1.0
+
+**Fixed**
+
+* Component elements are collected from within the function created by `componentProvider`
+
 ## 3.0.0
 
 **Added**
