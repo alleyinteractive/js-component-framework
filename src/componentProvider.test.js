@@ -2,7 +2,7 @@
 import componentProvider from './componentProvider';
 
 document.body.innerHTML = `
-  <div id="test-one" data-component="test-one">
+  <div id="test-one" class="wp-block-test-one" data-component="test-one">
     <button class="cool-button">Cool Button!</button>
     <ul>
       <li>First List Item</li>
@@ -172,6 +172,14 @@ test('Provides an empty options object when options are undefined', () => {
 
 test('Allows minimal config', () => {
   const config = { name: 'test-one', component: jest.fn() };
+
+  componentProvider(config);
+  expect(config.component).toHaveBeenCalledTimes(1);
+  expect(config.component).toHaveBeenCalledWith({ element, children: {}, options: {} });
+});
+
+test('Allows a custom selector', () => {
+  const config = { root: '.wp-block-test-one', component: jest.fn() };
 
   componentProvider(config);
   expect(config.component).toHaveBeenCalledTimes(1);
