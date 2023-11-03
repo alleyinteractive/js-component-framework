@@ -19,8 +19,10 @@ export default function componentProvider(config) {
     return undefined;
   }
 
-  // The component selector.
-  const selector = `[data-component='${name}']`;
+  // Set component selector, preferring the `name` property.
+  const selector = (undefined === name)
+    ? config?.root
+    : `[data-component='${name}']`;
 
   // Get options.
   const options = config.options || {};
@@ -31,10 +33,18 @@ export default function componentProvider(config) {
    * Collects component elements and passes them to each instance of the component.
    */
   const init = () => {
-    const componentEls = document.querySelectorAll(selector);
+    let componentEls;
 
+    // Test for a valid selector.
+    try {
+      componentEls = document.querySelectorAll(selector);
+    } catch(e) {
+      console.error(e); // eslint-disable-line no-console
+      return undefined;
+    }
+
+    // No component elements found.
     if (componentEls.length < 1) {
-      // Do nothing.
       console.log(`No elements found for ${selector}`); // eslint-disable-line no-console
       return undefined;
     }

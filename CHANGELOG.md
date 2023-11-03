@@ -3,9 +3,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## 3.1.0
 
+**Added**
+
+* Adds support for a custom selector via the `config.root` property
+
 **Fixed**
 
 * Component elements are collected from within the function created by `componentProvider`
+* `domContentLoaded` now checks for an interactive document `readyState`
 
 ## 3.0.0
 
