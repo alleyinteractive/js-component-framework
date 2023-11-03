@@ -13,26 +13,24 @@ export default function componentProvider(config) {
     name,
     querySelector = {},
     querySelectorAll = {},
+    options = {},
   } = config;
 
   if (typeof Component !== 'function') {
     return undefined;
   }
 
-  // Set component selector, preferring the `name` property.
-  const selector = (undefined === name)
-    ? config?.root
-    : `[data-component='${name}']`;
-
-  // Get options.
-  const options = config.options || {};
-
   /**
-   * The provider function.
+   * Collect component arguments based on the config.
    *
-   * Collects component elements and passes them to each instance of the component.
+   * @returns {array} Array of arguments.
    */
-  const init = () => {
+  const getComponentArgs = () => {
+    // Set component selector, preferring the `name` property.
+    const selector = (undefined === name)
+      ? config?.root
+      : `[data-component='${name}']`;
+
     let componentEls;
 
     // Test for a valid selector.
@@ -40,21 +38,16 @@ export default function componentProvider(config) {
       componentEls = document.querySelectorAll(selector);
     } catch (e) {
       console.error(e); // eslint-disable-line no-console
-      return undefined;
+      return [];
     }
 
     // No component elements found.
     if (componentEls.length < 1) {
       console.log(`No elements found for ${selector}`); // eslint-disable-line no-console
-      return undefined;
+      return [];
     }
 
-    /*
-     * Collect component arguments based on the config.
-     *
-     * @returns {Array}
-     */
-    const componentArgs = Array.from(componentEls).map((element) => {
+    return Array.from(componentEls).map((element) => {
       const children = {};
 
       // Select single child nodes.
@@ -70,9 +63,18 @@ export default function componentProvider(config) {
 
       return ({ element, children, options });
     });
+  };
 
-    // eslint-disable-next-line no-void
-    return void componentArgs.forEach((args) => new Component(args));
+  /**
+   * The provider function.
+   *
+   * Finds DOM nodes upon which the component should be initialized, collects
+   * references to child nodes thereof, and passes these as arguments to each
+   * instance of the component.
+   */
+  const init = () => {
+    const componentArgs = getComponentArgs();
+    componentArgs.forEach((args) => new Component(args));
   };
 
   if (load !== false) {
