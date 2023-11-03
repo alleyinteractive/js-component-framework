@@ -4,7 +4,10 @@
  * @param {function} cb Callback to execute once DOMContentLoaded completes.
  */
 const domContentLoaded = (cb) => {
-  if (document.readyState === 'complete') {
+  if (
+    document.readyState === 'complete'
+    || document.readyState === 'interactive'
+  ) {
     cb();
   }
 

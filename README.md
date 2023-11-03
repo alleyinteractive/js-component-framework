@@ -37,7 +37,9 @@ Component elements are denoted by a `data-component` attribute, the value of whi
 
 ### The Configuration Object
 
-**name**: _(Required)_ - The component name. This must match the component root element's `data-component` attribute value.
+ **name**: _(Required if `root` isn't defined)_ - The component name. This must match the component root element's `data-component` attribute value.
+
+**root**: _(Optional)_ - The selector for the component root. Must be a valid CSS selector string used by `querySelector()`. Will be ignored if `name` is defined.
 
 **component**: _(Required)_ - A component can be created as an ES6 class or a function. This property accepts the exported class or function to be initialized for the component.
 

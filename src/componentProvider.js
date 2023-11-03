@@ -13,51 +13,69 @@ export default function componentProvider(config) {
     name,
     querySelector = {},
     querySelectorAll = {},
+    options = {},
   } = config;
 
   if (typeof Component !== 'function') {
     return undefined;
   }
 
-  // The component selector.
-  const selector = `[data-component='${name}']`;
-
-  // Get component elements.
-  const componentEls = document.querySelectorAll(selector);
-
-  // Do nothing.
-  if (componentEls.length < 1) {
-    console.log(`No elements found for ${selector}`); // eslint-disable-line no-console
-    return undefined;
-  }
-
-  // Get options.
-  const options = config.options || {};
-
-  /*
+  /**
    * Collect component arguments based on the config.
    *
-   * @returns {Array}
+   * @returns {array} Array of arguments.
    */
-  const componentArgs = Array.from(componentEls).map((element) => {
-    const children = {};
+  const getComponentArgs = () => {
+    // Set component selector, preferring the `name` property.
+    const selector = (undefined === name)
+      ? config?.root
+      : `[data-component='${name}']`;
 
-    // Select single child nodes.
-    Object.keys(querySelector).forEach((elementKey) => {
-      children[elementKey] = element.querySelector(querySelector[elementKey]);
+    let componentEls;
+
+    // Test for a valid selector.
+    try {
+      componentEls = document.querySelectorAll(selector);
+    } catch (e) {
+      console.error(e); // eslint-disable-line no-console
+      return [];
+    }
+
+    // No component elements found.
+    if (componentEls.length < 1) {
+      console.log(`No elements found for ${selector}`); // eslint-disable-line no-console
+      return [];
+    }
+
+    return Array.from(componentEls).map((element) => {
+      const children = {};
+
+      // Select single child nodes.
+      Object.keys(querySelector).forEach((elementKey) => {
+        children[elementKey] = element.querySelector(querySelector[elementKey]);
+      });
+
+      // Select groups of child nodes.
+      Object.keys(querySelectorAll).forEach((elementKey) => {
+        const nodeList = element.querySelectorAll(querySelectorAll[elementKey]);
+        children[elementKey] = Array.from(nodeList);
+      });
+
+      return ({ element, children, options });
     });
+  };
 
-    // Select groups of child nodes.
-    Object.keys(querySelectorAll).forEach((elementKey) => {
-      const nodeList = element.querySelectorAll(querySelectorAll[elementKey]);
-      children[elementKey] = Array.from(nodeList);
-    });
-
-    return ({ element, children, options });
-  });
-
-  // Create the provider function.
-  const init = () => componentArgs.forEach((args) => new Component(args));
+  /**
+   * The provider function.
+   *
+   * Finds DOM nodes upon which the component should be initialized, collects
+   * references to child nodes thereof, and passes these as arguments to each
+   * instance of the component.
+   */
+  const init = () => {
+    const componentArgs = getComponentArgs();
+    componentArgs.forEach((args) => new Component(args));
+  };
 
   if (load !== false) {
     // Load the provider function.
