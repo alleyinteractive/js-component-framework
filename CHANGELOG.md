@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 **Fixed**
 
 * Component elements are collected from within the function created by `componentProvider`
+* `domContentLoaded` now checks for an interactive document `readyState`
 
 ## 3.0.0
 
