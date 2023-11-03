@@ -33,7 +33,7 @@ export default function componentProvider(config) {
    * Collects component elements and passes them to each instance of the component.
    */
   const init = () => {
-    let componentEls = [];
+    let componentEls;
 
     // Test for a valid selector.
     try {
