@@ -23,5 +23,6 @@
     "react": {
       "version": "999.999.999"
     }
-  }
+  },
+  "ignorePatterns": [ "**/*.md" ]
 }
