@@ -71,12 +71,6 @@ Component elements are denoted by a `data-component` attribute, the value of whi
 import { Component } from 'js-component-framework/v2';
 ```
 
-When using a bundler like webpack, import the ES module for a smaller footprint:
-
-```javascript
-import { Component } from 'js-component-framework/es/v2';
-```
-
 ❗️ A constructor is **required**. At minimum, the constructor should look like the following:
 
 ```javascript
