@@ -38,7 +38,7 @@ export default function componentProvider(config) {
     // Test for a valid selector.
     try {
       componentEls = document.querySelectorAll(selector);
-    } catch(e) {
+    } catch (e) {
       console.error(e); // eslint-disable-line no-console
       return undefined;
     }
