@@ -56,14 +56,14 @@
     "not IE 11"
   ],
   "exports": {
-    ".": {
-      "import": "./es/index.js",
-      "default": "./lib/index.js"
-    },
+    "./es": "./es/index.js",
     "./v2": {
       "import": "./es/v2/index.js",
       "default": "./lib/v2/index.js"
     },
-    "./es": "./es/index.js"
+    ".": {
+      "import": "./es/index.js",
+      "default": "./lib/index.js"
+    }
   }
 }
