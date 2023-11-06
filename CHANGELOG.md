@@ -11,6 +11,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 * Component elements are collected from within the function created by `componentProvider`
 * `domContentLoaded` now checks for an interactive document `readyState`
+* Importing from `v2/` will now work correctly
 
 ## 3.0.0
 

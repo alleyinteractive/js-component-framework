@@ -114,12 +114,6 @@ const productDetailsConfig = {
 componentProvider(productDetailsConfig);
 ```
 
-When using a bundler like webpack, import the ES module for a smaller footprint:
-
-```javascript
-import { componentProvider } from 'js-component-framework/es';
-```
-
 ### componentLoader
 
 `componentLoader` is used by `componentProvider` to load components. It is exported individually for cases where one doesn't want `componentProvider` to load the provider function automatically.
