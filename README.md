@@ -52,7 +52,7 @@ Component elements are denoted by a `data-component` attribute, the value of whi
 **load**: _(Optional)_ - _Default is a `DOMContentLoaded` handler_.
 
 * `false` - prevents execution and instructs `componentProvider` to return the provider function
-* `true` - Adds the provider function call inline so it is executed as soon as the parent script is parsed and loaded.
+* `true` - Adds the provider function call in place so it is executed as soon as the parent script is parsed and loaded.
 * `array` - `[HTMLElement, event]` - Adds the provider function as a callback for `event` on `HTMLElement` (e.g., `[window, 'load']`).
 * `handler` - A function that accepts a callback and contains the logic to call it.
 ### Component Properties

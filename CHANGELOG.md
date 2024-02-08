@@ -5,7 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 **Added**
 
-* Setting `config.load` to `true` adds the provider function call inline so it is executed as soon as the parent script is parsed and loaded.
+* Setting `config.load` to `true` adds the provider function call in place so it is executed as soon as the parent script is parsed and loaded.
 
 **Fixed**
 
