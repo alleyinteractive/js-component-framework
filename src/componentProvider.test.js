@@ -119,7 +119,8 @@ test('Returns the expected function for multiple instances when `load:false`', (
 test('Calls the component immediately when `load:true`', () => {
   const config = { ...baseConfig, name: 'test-one', load: true };
 
-  componentProvider(config);
+  const providerFunction = componentProvider(config);
+  expect(providerFunction).toBeUndefined();
   expect(config.component).toHaveBeenCalledTimes(1);
 });
 
