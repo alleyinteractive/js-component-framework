@@ -13,6 +13,11 @@ test('Does not call the provider function with `load:false`', () => {
   expect(providerFunc).toHaveBeenCalledTimes(0);
 });
 
+test('Does not call the provider function with `load:true`', () => {
+  componentLoader(providerFunc, true);
+  expect(providerFunc).not.toHaveBeenCalled();
+});
+
 test('Calls the provider function with the loader function', () => {
   const loader = jest.fn((func) => func());
 

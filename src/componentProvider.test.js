@@ -115,6 +115,20 @@ test('Returns the expected function for multiple instances when `load:false`', (
   expect(config.component).toHaveBeenNthCalledWith(2, testTwoExpected[1]);
 });
 
+test('Calls the component immediately when `load:true`', () => {
+  const config = { ...baseConfig, name: 'test-one', load: true };
+
+  componentProvider(config);
+  expect(config.component).toHaveBeenCalledTimes(1);
+});
+
+test('Calls the component for multiple instances immediately when `load:true`', () => {
+  const config = { ...baseConfig, name: 'test-two', load: true };
+
+  componentProvider(config);
+  expect(config.component).toHaveBeenCalledTimes(2);
+});
+
 test('Loads on event for single instance', () => {
   const config = {
     ...baseConfig,

@@ -49,12 +49,12 @@ Component elements are denoted by a `data-component` attribute, the value of whi
 
 **options**: _(Optional)_ - An arbitrary value, typically an object, used by the component. This could be a configuration for another JS library, values used for calculating styles, etc. This is passed to the wrapped function as the `options` property.
 
-**load**: _(Optional)_ - Accepts `false`, array, or a callback. _Default is a `domContentLoaded` callback_.
+**load**: _(Optional)_ - _Default is a `DOMContentLoaded` handler_.
 
-* `false` will disable loading and instruct `componentProvider` to return the provider function
-* An array, in the format of `[HTMLElement, event]`, will listen on `HTMLElement` for `event` (e.g., `[window, 'load']`)
-* A callback that accepts a function and contains the logic to call the function
-
+* `false` - prevents execution and instructs `componentProvider` to return the provider function
+* `true` - Adds the provider function call inline so it is executed as soon as the parent script is parsed and loaded.
+* `array` - `[HTMLElement, event]` - Adds the provider function as a callback for `event` on `HTMLElement` (e.g., `[window, 'load']`).
+* `handler` - A function that accepts a callback and contains the logic to call it.
 ### Component Properties
 
 Components receive an object of component properties as their only argument. These are based on the config and are included automatically by the framework.
@@ -111,6 +111,7 @@ const productDetailsConfig = {
   },
 };
 
+// The component is executed at 'DOMContentLoaded' due to the absense of a `config.load` value.
 componentProvider(productDetailsConfig);
 ```
 
