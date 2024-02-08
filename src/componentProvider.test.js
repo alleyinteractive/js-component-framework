@@ -106,6 +106,7 @@ test('Returns the expected function for multiple instances when `load:false`', (
   const config = { ...baseConfig, name: 'test-two', load: false };
 
   const providerFunction = componentProvider(config);
+  expect(typeof providerFunction).toBe('function');
   expect(config.component).toHaveBeenCalledTimes(0);
 
   providerFunction();
