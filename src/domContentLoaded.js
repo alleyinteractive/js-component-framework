@@ -1,17 +1,19 @@
+/* eslint consistent-return: ["error", { "treatUndefinedAsUnspecified": true }] */
+
 /**
  * Executes the given callback when DOMContentLoaded is ready.
  *
- * @param {function} cb Callback to execute once DOMContentLoaded completes.
+ * @param {function} callback Callback to execute once DOMContentLoaded completes.
  */
-const domContentLoaded = (cb) => {
+function domContentLoaded(callback) {
   if (
     document.readyState === 'complete'
     || document.readyState === 'interactive'
   ) {
-    cb();
+    return void callback(); // eslint-disable-line no-void
   }
 
-  document.addEventListener('DOMContentLoaded', cb, { once: true });
-};
+  document.addEventListener('DOMContentLoaded', callback, { once: true });
+}
 
 export default domContentLoaded;
