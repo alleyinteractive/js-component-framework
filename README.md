@@ -105,7 +105,7 @@ function productDetails({ element, children, options }) { ... }
 const productDetailsConfig = {
   name: 'product-details',
   component: productDetails,
-  // load: false | array | function
+  // load: boolean | array | function
   querySelectorAll: {
     toggles: '.product-details__toggle',
   },
