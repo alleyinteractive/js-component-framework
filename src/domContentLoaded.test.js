@@ -1,6 +1,5 @@
 import domContentLoaded from './domContentLoaded';
 
-// Mocks.
 const providerFunc = jest.fn();
 const addEventListener = jest.fn(() => {});
 

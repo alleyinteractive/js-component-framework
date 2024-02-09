@@ -93,6 +93,6 @@ export default function componentProvider(config) {
     return void init(); // eslint-disable-line no-void
   }
 
-  // Use the function defined in the `load` config property.
+  // Use the handler defined in the `load` config property.
   return void componentLoader(init, load); // eslint-disable-line no-void
 }
