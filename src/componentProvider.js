@@ -86,7 +86,7 @@ export default function componentProvider(config) {
    * Call the provider function so it is executed as soon as the document is
    * parsed and loaded.
    *
-   * This is a conventience option and is functionally identical to setting
+   * This is a convenience option and is functionally identical to setting
    * `config.load` to false and calling the provider function later in the script.
    */
   if (load === true) {
