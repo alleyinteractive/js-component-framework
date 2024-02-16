@@ -1,6 +1,16 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.2.0
+
+**Added**
+
+* Setting `config.load` to `true` adds the provider function call in place so it is executed as soon as the parent script is parsed and loaded.
+
+**Fixed**
+
+* The `domContentLoaded` function no longer executes its callback more than once
+
 ## 3.1.0
 
 **Added**

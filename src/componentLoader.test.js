@@ -10,7 +10,12 @@ const providerFunc = jest.fn();
 
 test('Does not call the provider function with `load:false`', () => {
   componentLoader(providerFunc, false);
-  expect(providerFunc).toHaveBeenCalledTimes(0);
+  expect(providerFunc).not.toHaveBeenCalled();
+});
+
+test('Does not call the provider function with `load:true`', () => {
+  componentLoader(providerFunc, true);
+  expect(providerFunc).not.toHaveBeenCalled();
 });
 
 test('Calls the provider function with the loader function', () => {
@@ -22,7 +27,7 @@ test('Calls the provider function with the loader function', () => {
 
 test('Loads on event for single instance', () => {
   componentLoader(providerFunc, [eventRoot, 'jscf-test-event']);
-  expect(providerFunc).toHaveBeenCalledTimes(0);
+  expect(providerFunc).not.toHaveBeenCalled();
 
   eventRoot.dispatchEvent(new CustomEvent('jscf-test-event'));
   expect(providerFunc).toHaveBeenCalledTimes(1);
@@ -30,14 +35,14 @@ test('Loads on event for single instance', () => {
 
 test('Fails silently on invalid event config', () => {
   componentLoader(providerFunc, [null, 'jscf-null-test']);
-  expect(providerFunc).toHaveBeenCalledTimes(0);
+  expect(providerFunc).not.toHaveBeenCalled();
 
   eventRoot.dispatchEvent(new CustomEvent('jscf-null-test'));
-  expect(providerFunc).toHaveBeenCalledTimes(0);
+  expect(providerFunc).not.toHaveBeenCalled();
 
   componentLoader(providerFunc, [eventRoot, 123]);
-  expect(providerFunc).toHaveBeenCalledTimes(0);
+  expect(providerFunc).not.toHaveBeenCalled();
 
   eventRoot.dispatchEvent(new CustomEvent('jscf-fail-test'));
-  expect(providerFunc).toHaveBeenCalledTimes(0);
+  expect(providerFunc).not.toHaveBeenCalled();
 });

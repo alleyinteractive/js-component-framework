@@ -77,12 +77,22 @@ export default function componentProvider(config) {
     componentArgs.forEach((args) => new Component(args));
   };
 
-  if (load !== false) {
-    // Load the provider function.
-    componentLoader(init, load);
-
-    return undefined;
+  // Return the provider function for later execution.
+  if (load === false) {
+    return init;
   }
 
-  return init;
+  /*
+   * Call the provider function so it is executed as soon as the document is
+   * parsed and loaded.
+   *
+   * This is a convenience option and is functionally identical to setting
+   * `config.load` to false and calling the provider function later in the script.
+   */
+  if (load === true) {
+    return void init(); // eslint-disable-line no-void
+  }
+
+  // Use the handler defined in the `load` config property.
+  return void componentLoader(init, load); // eslint-disable-line no-void
 }

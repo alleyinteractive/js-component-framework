@@ -95,7 +95,7 @@ test('Returns the expected function for single instance when `load:false`', () =
   const config = { ...baseConfig, name: 'test-one', load: false };
 
   const providerFunction = componentProvider(config);
-  expect(config.component).toHaveBeenCalledTimes(0);
+  expect(config.component).not.toHaveBeenCalled();
 
   providerFunction();
   expect(config.component).toHaveBeenCalledTimes(1);
@@ -106,13 +106,29 @@ test('Returns the expected function for multiple instances when `load:false`', (
   const config = { ...baseConfig, name: 'test-two', load: false };
 
   const providerFunction = componentProvider(config);
-  expect(config.component).toHaveBeenCalledTimes(0);
+  expect(typeof providerFunction).toBe('function');
+  expect(config.component).not.toHaveBeenCalled();
 
   providerFunction();
   expect(config.component).toHaveBeenCalledTimes(2);
 
   expect(config.component).toHaveBeenNthCalledWith(1, testTwoExpected[0]);
   expect(config.component).toHaveBeenNthCalledWith(2, testTwoExpected[1]);
+});
+
+test('Calls the component immediately when `load:true`', () => {
+  const config = { ...baseConfig, name: 'test-one', load: true };
+
+  const providerFunction = componentProvider(config);
+  expect(providerFunction).toBeUndefined();
+  expect(config.component).toHaveBeenCalledTimes(1);
+});
+
+test('Calls the component for multiple instances immediately when `load:true`', () => {
+  const config = { ...baseConfig, name: 'test-two', load: true };
+
+  componentProvider(config);
+  expect(config.component).toHaveBeenCalledTimes(2);
 });
 
 test('Loads on event for single instance', () => {
@@ -123,7 +139,7 @@ test('Loads on event for single instance', () => {
   };
 
   componentProvider(config);
-  expect(config.component).toHaveBeenCalledTimes(0);
+  expect(config.component).not.toHaveBeenCalled();
 
   eventRoot.dispatchEvent(new CustomEvent('jscf-test-one-event'));
   expect(config.component).toHaveBeenCalledTimes(1);
@@ -138,7 +154,7 @@ test('Loads on event for multiple instances', () => {
   };
 
   componentProvider(config);
-  expect(config.component).toHaveBeenCalledTimes(0);
+  expect(config.component).not.toHaveBeenCalled();
 
   eventRoot.dispatchEvent(new CustomEvent('jscf-test-two-event'));
   expect(config.component).toHaveBeenCalledTimes(2);
@@ -155,10 +171,10 @@ test('Fails silently on `null` event root', () => {
   };
 
   componentProvider(config);
-  expect(config.component).toHaveBeenCalledTimes(0);
+  expect(config.component).not.toHaveBeenCalled();
 
   eventRoot.dispatchEvent(new CustomEvent('jscf-null-test'));
-  expect(config.component).toHaveBeenCalledTimes(0);
+  expect(config.component).not.toHaveBeenCalled();
 });
 
 test('Provides an empty options object when options are undefined', () => {
